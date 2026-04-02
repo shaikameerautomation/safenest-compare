@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeNest · Your Project Comparison</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c:#111111;--c1:#1a1a1a;--c2:#222222;--c3:#2a2a2a;
+  --border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.06);
+  --gold:#c9a84c;--gold-l:#e8c97e;--gold-d:#7a6228;
+  --off:#f0ead8;--muted:#7a7570;--body:#b8b0a4;
+  --green:#52a875;--amber:#d4922a;--red:#c95252;--blue:#4a8fc0;
+  --teal:#3aadaa;
+  --win-bg:rgba(201,168,76,0.07);
+  --pl-bg:rgba(58,173,170,0.05);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--c);color:var(--body);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.5;min-height:100vh}
+.screen{display:none;min-height:100vh}
+.screen.active{display:flex;flex-direction:column}
+
+/* PASSWORD */
+#s-pw{align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 30% 50%,rgba(201,168,76,0.05) 0%,transparent 60%),var(--c);
+  position:relative}
+#s-pw::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.013) 39px,rgba(255,255,255,0.013) 40px),
+             repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,0.013) 39px,rgba(255,255,255,0.013) 40px);
+  pointer-events:none}
+.pw-wrap{width:420px;text-align:center;position:relative;z-index:1;animation:fu .45s ease}
+.pw-sn{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--gold-d);text-transform:uppercase;margin-bottom:10px}
+.pw-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--off);line-height:1.1;margin-bottom:6px}
+.pw-sub{font-size:12px;color:var(--muted);letter-spacing:.5px;margin-bottom:36px;line-height:1.6}
+.pw-field{width:100%;background:var(--c1);border:1px solid var(--border);border-radius:3px;padding:14px 18px;color:var(--off);font-family:'IBM Plex Mono',monospace;font-size:15px;text-align:center;letter-spacing:5px;outline:none;transition:border-color .2s}
+.pw-field:focus{border-color:var(--gold)}
+.pw-field::placeholder{letter-spacing:1px;color:var(--muted);font-size:11px}
+.pw-btn{margin-top:12px;width:100%;background:var(--gold);color:#0a0a0a;border:none;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:background .2s}
+.pw-btn:hover{background:var(--gold-l)}
+.pw-err{color:var(--red);font-size:11px;margin-top:8px;font-family:'IBM Plex Mono',monospace;min-height:16px}
+.pw-footer{margin-top:32px;padding-top:20px;border-top:1px solid var(--border2);font-size:11px;color:var(--muted);line-height:1.7}
+.pw-footer strong{color:var(--gold)}
+
+/* COMPARISON */
+#s-cmp{background:var(--c);height:100vh}
+.topbar{background:var(--c1);border-bottom:1px solid var(--border);padding:13px 28px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.tb-left{display:flex;align-items:center;gap:14px}
+.tb-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);letter-spacing:.5px}
+.tb-sep{width:1px;height:14px;background:var(--border)}
+.tb-title{font-size:11.5px;color:var(--muted)}
+.tb-badge{font-family:'IBM Plex Mono',monospace;font-size:9.5px;padding:3px 10px;background:rgba(201,168,76,0.08);border:1px solid var(--border);color:var(--gold);border-radius:2px}
+.tb-right{display:flex;gap:8px}
+.tb-btn{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:6px 14px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1px;cursor:pointer;border-radius:2px;transition:all .2s;text-transform:uppercase}
+.tb-btn:hover{border-color:var(--border);color:var(--body)}
+.tb-btn.gold{border-color:var(--gold-d);color:var(--gold)}
+
+/* PROJECT HEADER CARDS */
+.proj-row{display:grid;flex-shrink:0;border-bottom:2px solid var(--border)}
+.lbl-col{background:var(--c1);border-right:1px solid var(--border);padding:18px 20px;display:flex;align-items:flex-end}
+.lbl-col span{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+.pc{background:var(--c1);border-right:1px solid var(--border2);padding:16px 18px;position:relative;transition:background .2s}
+.pc.winner{background:var(--win-bg)}
+.pc.prelaunch{background:var(--pl-bg)}
+.pc-stage{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:1px}
+.stage-rera{background:rgba(82,168,117,0.1);color:var(--green);border:1px solid rgba(82,168,117,0.22)}
+.stage-pl{background:rgba(58,173,170,0.1);color:var(--teal);border:1px solid rgba(58,173,170,0.22)}
+.pc-name{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:var(--off);line-height:1.2;margin-bottom:2px}
+.pc-dev{font-size:10.5px;color:var(--muted);margin-bottom:7px}
+.pc-score-row{display:flex;align-items:baseline;gap:5px;margin-bottom:6px}
+.pc-snum{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;line-height:1}
+.pc-smax{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
+.pc-price{font-family:'IBM Plex Mono',monospace;font-size:10.5px;margin-bottom:8px}
+.rpills{display:flex;flex-wrap:wrap;gap:3px}
+.rp{font-family:'IBM Plex Mono',monospace;font-size:8.5px;padding:2px 5px;border-radius:1px;letter-spacing:.3px;text-transform:uppercase}
+.rp.g{background:rgba(82,168,117,0.1);color:var(--green);border:1px solid rgba(82,168,117,0.22)}
+.rp.a{background:rgba(212,146,42,0.1);color:var(--amber);border:1px solid rgba(212,146,42,0.22)}
+.rp.r{background:rgba(201,82,82,0.1);color:var(--red);border:1px solid rgba(201,82,82,0.22)}
+.rp.t{background:rgba(58,173,170,0.1);color:var(--teal);border:1px solid rgba(58,173,170,0.22)}
+.pc-crown{position:absolute;top:10px;right:12px;font-size:14px}
+
+/* TABLE */
+.tbl-wrap{flex:1;overflow-y:auto}
+.grp-hdr{background:rgba(255,255,255,0.018);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);padding:7px 20px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-d);display:grid}
+.row{display:grid;border-bottom:1px solid rgba(255,255,255,0.03);transition:background .15s}
+.row:hover{background:rgba(255,255,255,0.012)}
+.pc2{padding:12px 20px;border-right:1px solid var(--border2);display:flex;flex-direction:column;justify-content:center}
+.pn{font-size:12px;color:var(--off);font-weight:500;margin-bottom:2px}
+.py{font-size:10px;color:var(--muted);line-height:1.4}
+.dc{padding:12px 20px;border-right:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;justify-content:center;cursor:pointer;transition:background .15s}
+.dc:hover{background:rgba(255,255,255,0.02)}
+.dc.win{background:var(--win-bg);border-left:2px solid var(--gold)}
+.dc.na{background:rgba(58,173,170,0.03);cursor:default}
+.dc.na:hover{background:rgba(58,173,170,0.03)}
+.dv{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--off);line-height:1.4;margin-bottom:3px}
+.dv.green{color:var(--green)}.dv.amber{color:var(--amber)}.dv.red{color:var(--red)}
+.dbadge{display:inline-flex;align-items:center;gap:3px;font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.4px;padding:2px 5px;border-radius:1px;margin-bottom:4px}
+.bg{background:rgba(82,168,117,0.1);color:var(--green);border:1px solid rgba(82,168,117,0.2)}
+.ba{background:rgba(212,146,42,0.1);color:var(--amber);border:1px solid rgba(212,146,42,0.2)}
+.br{background:rgba(201,82,82,0.1);color:var(--red);border:1px solid rgba(201,82,82,0.2)}
+.bt{background:rgba(58,173,170,0.1);color:var(--teal);border:1px solid rgba(58,173,170,0.2)}
+.wtag{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--gold);margin-top:2px}
+.dn{font-size:10px;color:var(--muted);line-height:1.4}
+.na-txt{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);font-style:italic}
+
+/* WINNER BAR */
+.wbar{background:var(--c1);border-top:2px solid var(--border);flex-shrink:0}
+.wbar-inner{display:grid}
+.wbar-lbl{padding:0 20px;display:flex;align-items:center}
+.wbar-lbl span{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.wbc{padding:10px 18px;border-right:1px solid var(--border2)}
+.wbc-n{font-family:'Playfair Display',serif;font-size:19px;color:var(--gold);line-height:1}
+.wbc-l{font-size:10px;color:var(--muted);margin-top:2px}
+.wbc-v{font-size:11px;color:var(--off);margin-top:3px}
+
+/* SAFENEST DISCLAIMER */
+.disclaimer{background:rgba(201,168,76,0.04);border-top:1px solid var(--border);padding:10px 28px;flex-shrink:0}
+.disclaimer-inner{font-size:10.5px;color:var(--muted);line-height:1.55}
+.disclaimer-inner strong{color:var(--gold-d)}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:100;align-items:center;justify-content:center;padding:32px}
+.overlay.open{display:flex}
+.mbox{background:var(--c1);border:1px solid var(--border);border-radius:4px;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;position:relative}
+.mhdr{padding:24px 28px 18px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--c1);z-index:1}
+.mclose{position:absolute;top:18px;right:22px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;transition:color .2s}
+.mclose:hover{color:var(--off)}
+.mname{font-family:'Playfair Display',serif;font-size:20px;color:var(--off);margin-bottom:3px}
+.mmeta{font-size:11.5px;color:var(--muted)}
+.mbody{padding:22px 28px 28px}
+.msec{margin-bottom:24px}
+.msec-title{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border2)}
+.mfacts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mf{background:var(--c2);padding:10px 12px;border-radius:2px}
+.mfl{font-size:10px;color:var(--muted);margin-bottom:2px}
+.mfv{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--off)}
+.mfv.green{color:var(--green)}.mfv.amber{color:var(--amber)}.mfv.red{color:var(--red)}.mfv.teal{color:var(--teal)}
+.mflags{display:flex;flex-direction:column;gap:7px}
+.mflag{padding:11px 13px;border-radius:2px;font-size:11.5px;line-height:1.55}
+.mflag.g{background:rgba(82,168,117,0.07);border-left:3px solid var(--green);color:var(--body)}
+.mflag.a{background:rgba(212,146,42,0.07);border-left:3px solid var(--amber);color:var(--body)}
+.mflag.r{background:rgba(201,82,82,0.07);border-left:3px solid var(--red);color:var(--body)}
+.mflag strong{color:var(--off)}
+.mverdict{background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:2px;padding:16px 18px;font-size:12px;line-height:1.7;color:var(--body)}
+.mverdict strong{color:var(--off)}
+.pl-info{background:rgba(58,173,170,0.05);border:1px solid rgba(58,173,170,0.25);border-radius:2px;padding:12px 14px;font-size:11.5px;color:var(--body);margin-bottom:12px}
+.pl-info strong{color:var(--teal)}
+.safenest-note{background:var(--c2);border-left:3px solid var(--gold-d);padding:12px 14px;border-radius:0 2px 2px 0;font-size:11.5px;color:var(--body);line-height:1.6;margin-top:10px}
+.safenest-note strong{color:var(--gold)}
+
+/* ERROR */
+#s-err{align-items:center;justify-content:center}
+.err-box{text-align:center;max-width:380px}
+.err-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--off);margin-bottom:8px}
+.err-sub{font-size:12px;color:var(--muted);line-height:1.7}
+
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--c)}::-webkit-scrollbar-thumb{background:var(--c3);border-radius:2px}
+@media print{#s-pw,#s-err{display:none!important}#s-cmp{display:flex!important}.tb-right,.disclaimer{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ERROR SCREEN -->
+<div id="s-err" class="screen">
+  <div style="flex:1;display:flex;align-items:center;justify-content:center">
+    <div class="err-box">
+      <div style="font-size:32px;margin-bottom:16px">🔗</div>
+      <div class="err-title">No projects loaded</div>
+      <div class="err-sub">This comparison link appears incomplete. Please contact your SafeNest advisor to receive a valid comparison link.<br><br>
+      <strong style="color:var(--gold)">WhatsApp SafeNest: +91 XXXXX XXXXX</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD SCREEN -->
+<div id="s-pw" class="screen">
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;z-index:1">
+    <div class="pw-wrap">
+      <div class="pw-sn">SafeNest Advisory · Hyderabad</div>
+      <div class="pw-title">Your Property<br>Comparison Report</div>
+      <div class="pw-sub">
+        Your SafeNest advisor has prepared a personalised 4-project comparison for you based on your requirements. Enter your access code to view it.
+      </div>
+      <input id="pw-in" class="pw-field" type="password" placeholder="Enter your access code" autocomplete="off">
+      <button class="pw-btn" onclick="checkPw()">VIEW MY COMPARISON →</button>
+      <div id="pw-err" class="pw-err"></div>
+      <div class="pw-footer">
+        Each comparison is personally curated by SafeNest Advisory and contains independent due diligence data.<br><br>
+        <strong>Need help? WhatsApp your SafeNest advisor.</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARISON SCREEN -->
+<div id="s-cmp" class="screen">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-brand">SafeNest Advisory</div>
+      <div class="tb-sep"></div>
+      <div class="tb-title">Your Personalised Project Comparison</div>
+      <div class="tb-badge">VERIFIED DUE DILIGENCE</div>
+    </div>
+    <div class="tb-right">
+      <button class="tb-btn gold" onclick="window.print()">⬇ Save as PDF</button>
+    </div>
+  </div>
+  <div class="proj-row" id="proj-hdr"></div>
+  <div class="tbl-wrap" id="tbl"></div>
+  <div class="wbar" id="wbar" style="display:none"><div class="wbar-inner" id="wbar-inner"></div></div>
+  <div class="disclaimer">
+    <div class="disclaimer-inner">
+      <strong>SafeNest Advisory:</strong> This comparison is based on RERA filings, EC documents, title reports, and project brochures verified by SafeNest's research team. Construction percentages should be re-verified at tsrera.telangana.gov.in before booking. Pre-launch scores use a separate framework — RERA/construction parameters are excluded as they do not exist at pre-launch stage. This report does not constitute legal advice. All prices are indicative — obtain the developer's official cost sheet before signing.
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeM()">
+  <div class="mbox" id="mbox"></div>
+</div>
+
+<script>
+/* ================================================================
+   FULL PROJECT DATABASE — SAME AS ADVISOR
+================================================================ */
+const ALL_PROJECTS = [
+  {
+    id:"ira-m3", name:"IRA M3",
+    developer:"IRA Realty Tech Pvt Ltd",
+    location:"Kollur, West Hyderabad", micromarket:"Kollur",
+    isPreLaunch:false,
+    score:8.0, prelaunchScore:null,
+    priceMin:0.85, priceMax:0.90, pricePerSqft:6200, priceDisplay:"₹85L – ₹90L",
+    unitSizes:"1,350 – 1,500 sft", bhk:[2,3],
+    deliveryDate:"Dec 2026", deliveryYear:2026, workDone:65,
+    reraStatus:"Registered", reraId:"Verify at TSRERA",
+    hmda:null, titleType:"Outright Purchase",
+    densityPerAcre:85, parkingRatio:1.5, amenitySqftPerUnit:52,
+    amenityTotal:"Swimming Pool, Gym, Clubhouse",
+    escrowBank:"Verify at TSRERA", bankApprovals:4,
+    appreciationCAGR:11,
+    rag:{legal:"green",developer:"amber",construction:"green",location:"green"},
+    flags:[
+      {type:"g",text:"<strong>Highest SafeNest Score — 8/10.</strong> Best risk-adjusted project in this comparison. Construction 65% done."},
+      {type:"g",text:"<strong>Best price per sqft (₹6,200).</strong> Most affordable entry with lowest delivery risk — rare combination."},
+      {type:"g",text:"<strong>4 bank approvals.</strong> SBI, HDFC and others have independently verified this project."},
+      {type:"g",text:"<strong>Dec 2026 possession.</strong> Shortest timeline — only ~1.5 years from today."},
+      {type:"a",text:"<strong>IRA Realty is a Tier 3 developer.</strong> Good 10-year record but verify past project delivery dates."}
+    ],
+    verdict:"Strongest risk-adjusted project here. 65% construction + lowest price + earliest possession = ideal for buyers who want to minimise risk without sacrificing Kollur location. The Tier 3 developer is the only real caveat — ask to see their past project OC certificates."
+  },
+  {
+    id:"vaishno-sapphire", name:"VAISHNO SAPPHIRE",
+    developer:"Vaishno Ventures and Estates",
+    location:"Kollur, West Hyderabad", micromarket:"Kollur",
+    isPreLaunch:false,
+    score:6.0, prelaunchScore:null,
+    priceMin:0.90, priceMax:1.42, pricePerSqft:7200, priceDisplay:"₹90L – ₹1.42 Cr",
+    unitSizes:"1,367 – 2,034 sft", bhk:[2,3],
+    deliveryDate:"Oct 2028", deliveryYear:2028, workDone:10,
+    reraStatus:"Registered", reraId:"P01100010046",
+    hmda:null, titleType:"Verify at TSRERA",
+    densityPerAcre:102, parkingRatio:1.5, amenitySqftPerUnit:45,
+    amenityTotal:"Pool, Gym, Kids Play, Creche",
+    escrowBank:"Verify at TSRERA", bankApprovals:2,
+    appreciationCAGR:11,
+    rag:{legal:"amber",developer:"amber",construction:"red",location:"green"},
+    flags:[
+      {type:"g",text:"<strong>RERA Registered — P01100010046.</strong> Confirmed on TSRERA portal. Legal protection active."},
+      {type:"g",text:"<strong>Widest size range (1,367–2,034 sft).</strong> Both 2 BHK and 3 BHK available — best flexibility."},
+      {type:"a",text:"<strong>Only 10% construction done.</strong> Oct 2028 is 3+ years away. Ask for a construction-linked payment plan."},
+      {type:"a",text:"<strong>2 bank approvals only.</strong> Verify which banks and check their independent assessment."},
+      {type:"a",text:"<strong>Verify title type at TSRERA</strong> before finalising — confirm outright purchase vs JDA."}
+    ],
+    verdict:"Good flexibility and a developer with 10 completed projects across Hyderabad and Bangalore. At 10% construction with a 2028 target, delivery risk is present. Best for 3 BHK buyers who can wait 3 years. Never pay more than 10% before basement completion is confirmed."
+  },
+  {
+    id:"vian-mrida", name:"VIAN MRIDA",
+    developer:"Ira Vian Properties Pvt Ltd",
+    location:"Kollur, West Hyderabad", micromarket:"Kollur",
+    isPreLaunch:false,
+    score:6.0, prelaunchScore:null,
+    priceMin:1.0, priceMax:1.70, pricePerSqft:8000, priceDisplay:"₹1.0 – ₹1.7 Cr",
+    unitSizes:"1,395 – 2,360 sft", bhk:[2,3],
+    deliveryDate:"Jan 2030", deliveryYear:2030, workDone:20,
+    reraStatus:"Registered", reraId:"P01100009333",
+    hmda:null, titleType:"Verify at TSRERA",
+    densityPerAcre:136, parkingRatio:1.5, amenitySqftPerUnit:112,
+    amenityTotal:"50,000 sqft · Infinity Pool · Rooftop · BBQ · Kids Pool",
+    escrowBank:"Verify at TSRERA", bankApprovals:2,
+    appreciationCAGR:11,
+    rag:{legal:"amber",developer:"red",construction:"red",location:"green"},
+    flags:[
+      {type:"g",text:"<strong>South India's first stepped elevation.</strong> Unique design — no competitor in Kollur can replicate this."},
+      {type:"g",text:"<strong>50,000 sqft amenity block — largest in Kollur.</strong> 112 sqft per flat, far above the 65 sqft luxury standard."},
+      {type:"g",text:"<strong>RERA Registered — P01100009333.</strong> Verified on TSRERA portal."},
+      {type:"a",text:"<strong>New JV developer.</strong> Ira Vian Properties was formed for this project. Parent companies have limited Hyderabad history."},
+      {type:"r",text:"<strong>20% done, Jan 2030 — 4+ years away.</strong> Delivery risk is present. Use construction-linked payment plan only."},
+      {type:"r",text:"<strong>Highest density (136 units/acre) in this comparison.</strong> More residents per acre affects quality of life long-term."}
+    ],
+    verdict:"Most visually impressive project in Kollur with the best amenity space per flat. But the developer is new with no independent delivery history and density is highest here. Best for investors who believe in the stepped elevation concept. Strictly construction-linked payments only — do not pay more than 10% until the slab above your floor is confirmed."
+  },
+  {
+    id:"lansum-el-palacio", name:"LANSUM EL PALACIO",
+    developer:"Lansum Properties LLP",
+    location:"Puppalguda, Manikonda", micromarket:"Manikonda",
+    isPreLaunch:false,
+    score:6.0, prelaunchScore:null,
+    priceMin:1.80, priceMax:2.10, pricePerSqft:10500, priceDisplay:"₹1.8 – ₹2.1 Cr",
+    unitSizes:"1,715 – 2,320 sft", bhk:[3],
+    deliveryDate:"Jun 2030", deliveryYear:2030, workDone:5,
+    reraStatus:"Registered", reraId:"Verify at TSRERA",
+    hmda:null, titleType:"JDA — Registered DAGPA",
+    densityPerAcre:168, parkingRatio:1.87, amenitySqftPerUnit:79,
+    amenityTotal:"40,000 sqft · 7-Level Clubhouse · Senior Lounge · Guest Rooms · Grocery",
+    escrowBank:"Bank of Baroda", bankApprovals:0,
+    appreciationCAGR:10,
+    rag:{legal:"amber",developer:"amber",construction:"red",location:"green"},
+    flags:[
+      {type:"g",text:"<strong>Clean 30-year title chain.</strong> EC covers 29 years. All land conversions done. Advocate-certified as clear."},
+      {type:"g",text:"<strong>1.87 parking ratio — highest in this comparison.</strong> 941 covered slots for 504 flats. Real long-term advantage."},
+      {type:"g",text:"<strong>Dual 100ft road frontage.</strong> West road existing, South road proposed — unique land characteristic in Manikonda."},
+      {type:"a",text:"<strong>JDA land structure.</strong> Landowner agreement registered. Verify that your unit is in the developer's share before signing."},
+      {type:"r",text:"<strong>Only 5% construction done</strong> with a June 2030 deadline. Highest delivery risk in this comparison."},
+      {type:"r",text:"<strong>Zero bank approvals.</strong> No bank has independently assessed this project yet. Ask the developer why."}
+    ],
+    verdict:"Best legal documentation and strongest physical product — 7-level clubhouse, best parking, generous unit sizes. But at 5% construction with a 5-year timeline and zero bank approvals this carries the highest delivery risk here. Patient investors only. Your SafeNest advisor will use a post-dated cheque structure so you pay nothing until RERA milestones are confirmed."
+  },
+  {
+    id:"prestige-golden-grove", name:"PRESTIGE GOLDEN GROVE",
+    developer:"Prestige Estates Projects Ltd",
+    location:"Kollur, West Hyderabad", micromarket:"Kollur",
+    isPreLaunch:true,
+    score:null, prelaunchScore:7.8,
+    priceMin:1.10, priceMax:2.60, pricePerSqft:9500, priceDisplay:"₹1.1 – ₹2.6 Cr",
+    unitSizes:"Verify with developer", bhk:[2,3,4],
+    deliveryDate:"TBD — Post RERA", deliveryYear:2030, workDone:0,
+    reraStatus:"Applied — Pending",
+    reraId:"Pre-launch — RERA expected soon",
+    hmda:{approvalNo:"Verify with developer",approvalDate:"2024",sanctionedFloors:"Verify",expectedReraDate:"2025"},
+    titleType:"Outright Purchase",
+    densityPerAcre:70, parkingRatio:1.8, amenitySqftPerUnit:70,
+    amenityTotal:"Prestige standard — details confirmed post RERA",
+    escrowBank:"N/A — Pre-RERA stage", bankApprovals:0,
+    appreciationCAGR:13,
+    rag:{legal:"amber",developer:"green",construction:"na",location:"green"},
+    flags:[
+      {type:"g",text:"<strong>Prestige Group — India's only CRISIL DA1+ rated developer.</strong> 350+ projects delivered nationally. 85-90% on-time delivery record."},
+      {type:"g",text:"<strong>Highest 5-year appreciation forecast (13%) in this comparison.</strong> Prestige brand adds 10-15% to resale value vs comparable projects."},
+      {type:"g",text:"<strong>Lowest density (70 units/acre).</strong> Best open space and quality of life — more room per resident than any other project here."},
+      {type:"a",text:"<strong>RERA not yet registered.</strong> Escrow protection is NOT active yet. SafeNest rule: No payment above ₹1L before RERA is confirmed."},
+      {type:"a",text:"<strong>Pre-launch stage.</strong> No confirmed delivery date, no construction timeline, no bank approvals yet. All of these come after RERA registration."}
+    ],
+    verdict:"The strongest developer in this comparison by a wide margin. Lowest density, highest CAGR potential, and Prestige's national track record make this the most credible pre-launch project here. But RERA is not yet registered — zero escrow protection currently. Your SafeNest advisor will use a post-dated cheque only — you pay nothing real until RERA registration is confirmed."
+  },
+  {
+    id:"vian-vayu", name:"VIAN VAYU",
+    developer:"Ira Vian Properties Pvt Ltd",
+    location:"Kollur, West Hyderabad", micromarket:"Kollur",
+    isPreLaunch:true,
+    score:null, prelaunchScore:4.2,
+    priceMin:1.25, priceMax:1.52, pricePerSqft:7800, priceDisplay:"₹1.25 – ₹1.52 Cr",
+    unitSizes:"Verify with developer", bhk:[2,3],
+    deliveryDate:"TBD — Post RERA", deliveryYear:2029, workDone:0,
+    reraStatus:"Applied — Pending",
+    reraId:"Pre-launch — RERA expected",
+    hmda:{approvalNo:"Verify with developer",approvalDate:"2024",sanctionedFloors:"Verify",expectedReraDate:"2025"},
+    titleType:"Verify with developer",
+    densityPerAcre:120, parkingRatio:1.2, amenitySqftPerUnit:40,
+    amenityTotal:"Verify with developer",
+    escrowBank:"N/A — Pre-RERA stage", bankApprovals:0,
+    appreciationCAGR:10,
+    rag:{legal:"red",developer:"red",construction:"na",location:"green"},
+    flags:[
+      {type:"g",text:"<strong>Kollur location — strong growth corridor.</strong> ORR proximity and Financial District access are solid fundamentals."},
+      {type:"r",text:"<strong>Lowest pre-launch score (4.2/10).</strong> Same JV developer as Vian Mrida — no completed projects independently."},
+      {type:"r",text:"<strong>Lowest parking ratio (1.2) in this comparison.</strong> Below acceptable minimum — affects daily life and resale value."},
+      {type:"r",text:"<strong>RERA not registered.</strong> No escrow, no delivery commitment, no regulatory protection currently active."},
+      {type:"a",text:"<strong>Verify all details</strong> — unit sizes, floor plans, HMDA number, RERA filing date — before any engagement."}
+    ],
+    verdict:"Lowest pre-launch score in this comparison. The developer has no completed projects, parking ratio is the weakest here, and RERA is not registered. The location is sound but three simultaneous risk factors make this only suitable for experienced investors who can tolerate high uncertainty. Your SafeNest advisor recommends confirming the RERA filing date before any further engagement."
+  }
+];
+
+/* ================================================================
+   PARAMETERS — IDENTICAL TO ADVISOR FILE
+================================================================ */
+const PARAMS = [
+  { group:"🔐  TRUST & LEGAL SAFETY", params:[
+    { key:"scoreDisplay", label:"SafeNest Score", why:"Verified audit rating · RERA or Pre-Launch framework", isReraParam:false,
+      format:p=>p.isPreLaunch?`${p.prelaunchScore} / 10 ★`:`${p.score} / 10`,
+      winner:"highest", numVal:p=>p.isPreLaunch?p.prelaunchScore:p.score,
+      rag:p=>{const s=p.isPreLaunch?p.prelaunchScore:p.score;return s>=7.5?"green":s>=6?"amber":"red";},
+      note:p=>p.isPreLaunch?"Pre-Launch Score · Separate framework":""
+    },
+    { key:"reraStatus", label:"Approval Status", why:"RERA = full escrow protection · Pre-RERA = HMDA only", isReraParam:false,
+      format:p=>p.isPreLaunch?"HMDA Approved · RERA Pending":p.reraStatus,
+      winner:"none",
+      rag:p=>p.reraStatus==="Registered"?"green":"amber",
+      note:p=>p.isPreLaunch?`Expected RERA: ${p.hmda?.expectedReraDate||"Verify"}`:p.reraId
+    },
+    { key:"titleType", label:"Land Title Type", why:"Outright = no landowner risk", isReraParam:false,
+      format:p=>p.titleType,
+      winner:"specific", winnerFn:vals=>{const i=vals.findIndex(v=>v==="Outright Purchase");return i>=0?i:-1;},
+      rag:p=>p.titleType==="Outright Purchase"?"green":p.titleType.includes("JDA")?"amber":"red",
+      note:p=>p.titleType==="Outright Purchase"?"No JDA risk ✓":""
+    },
+    { key:"bankApprovals", label:"Bank Approvals", why:"Independent lender verification", isReraParam:true,
+      format:p=>`${p.bankApprovals} banks`,
+      winner:"highest",
+      rag:p=>p.bankApprovals>=4?"green":p.bankApprovals>=2?"amber":"red",
+      note:p=>p.bankApprovals>=4?"Strong lender confidence":p.bankApprovals>=2?"Adequate":"Low coverage"
+    },
+  ]},
+  { group:"💰  VALUE & RETURNS", params:[
+    { key:"pricePerSqft", label:"Price / sqft", why:"Lower = better value for money", isReraParam:false,
+      format:p=>`₹${p.pricePerSqft.toLocaleString()}`,
+      winner:"lowest",
+      rag:p=>p.pricePerSqft<=7000?"green":p.pricePerSqft<=9000?"amber":"red",
+      note:p=>`All-in range: ${p.priceDisplay}`
+    },
+    { key:"appreciationCAGR", label:"5-Year Appreciation Estimate", why:"SafeNest projected annual price growth", isReraParam:false,
+      format:p=>`${p.appreciationCAGR}% per year`,
+      winner:"highest",
+      rag:p=>p.appreciationCAGR>=12?"green":p.appreciationCAGR>=10?"amber":"red",
+      note:p=>""
+    },
+  ]},
+  { group:"🏠  LIFESTYLE QUALITY", params:[
+    { key:"parkingRatio", label:"Parking Slots per Flat", why:"Higher = better daily life + resale value", isReraParam:false,
+      format:p=>`${p.parkingRatio} slots`,
+      winner:"highest",
+      rag:p=>p.parkingRatio>=1.8?"green":p.parkingRatio>=1.5?"amber":"red",
+      note:p=>p.parkingRatio>=1.8?"Best in class ✓":"Acceptable"
+    },
+    { key:"amenitySqftPerUnit", label:"Amenity Area per Flat", why:"More space = less crowded facilities", isReraParam:false,
+      format:p=>`${p.amenitySqftPerUnit} sqft`,
+      winner:"highest",
+      rag:p=>p.amenitySqftPerUnit>=65?"green":p.amenitySqftPerUnit>=45?"amber":"red",
+      note:p=>p.amenityTotal
+    },
+    { key:"densityPerAcre", label:"Density (Flats per Acre)", why:"Lower = better quality of life + scarcity", isReraParam:false,
+      format:p=>`${p.densityPerAcre} flats/acre`,
+      winner:"lowest",
+      rag:p=>p.densityPerAcre<=80?"green":p.densityPerAcre<=110?"amber":"red",
+      note:p=>p.densityPerAcre<=80?"Luxury standard ✓":"Above luxury norm"
+    },
+  ]},
+  { group:"⚠  DELIVERY RISK · Applies to RERA-stage projects only", params:[
+    { key:"workDone", label:"Construction Progress", why:"Higher = lower chance of delays", isReraParam:true,
+      format:p=>`${p.workDone}% complete`,
+      winner:"highest",
+      rag:p=>p.workDone>=40?"green":p.workDone>=20?"amber":"red",
+      note:p=>p.workDone>=40?"Risk largely mitigated":p.workDone>=20?"Moderate risk":"High delivery risk"
+    },
+    { key:"deliveryYear", label:"Estimated Possession", why:"Earlier = less time exposed to builder risk", isReraParam:true,
+      format:p=>p.deliveryDate,
+      winner:"lowest",
+      rag:p=>p.deliveryYear<=2027?"green":p.deliveryYear<=2029?"amber":"red",
+      note:p=>p.isPreLaunch?"Timeline confirmed after RERA registration":`Approximately ${p.deliveryYear-2025} years from today`
+    },
+  ]}
+];
+
+/* ================================================================
+   STATE & PASSWORD
+================================================================ */
+let selectedProjects = [];
+let winnerCounts = {};
+// The buyer-specific password is embedded in the URL or set here
+// Advisor sets the buyer password when generating the link
+// For demo: accepts DEMO, SAFENEST2025, or any 6-char uppercase code stored in hash
+const DEMO_PASSWORDS = ["DEMO","SAFENEST2025"];
+
+function checkPw(){
+  const val = document.getElementById('pw-in').value.trim().toUpperCase();
+  // Accept demo passwords or any 6-char code (buyer-specific)
+  if(DEMO_PASSWORDS.includes(val) || (val.length===6 && /^[A-Z0-9]+$/.test(val))){
+    loadComparison();
+  } else {
+    document.getElementById('pw-err').textContent='Incorrect code. Contact your SafeNest advisor for access.';
+    document.getElementById('pw-in').style.borderColor='var(--red)';
+    setTimeout(()=>{document.getElementById('pw-in').style.borderColor='';},2000);
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('pw-in').addEventListener('keydown',e=>{if(e.key==='Enter')checkPw();});
+  const hash = window.location.hash;
+  if(!hash || !hash.includes('projects=')){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('s-err').classList.add('active');
+  } else {
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('s-pw').classList.add('active');
+  }
+});
+
+function loadComparison(){
+  const hash = window.location.hash;
+  if(hash && hash.includes('projects=')){
+    const ids = hash.replace('#projects=','').split(',');
+    selectedProjects = ids.map(id=>ALL_PROJECTS.find(p=>p.id===id)).filter(Boolean);
+  }
+  if(selectedProjects.length < 2){
+    // Fallback: show top 4 by score
+    selectedProjects = ALL_PROJECTS
+      .sort((a,b)=>(b.isPreLaunch?b.prelaunchScore:b.score)-(a.isPreLaunch?a.prelaunchScore:a.score))
+      .slice(0,4);
+  }
+  buildComparison();
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-cmp').classList.add('active');
+}
+
+/* ================================================================
+   BUILD COMPARISON
+================================================================ */
+function buildComparison(){
+  const N = selectedProjects.length;
+  const cols = `190px repeat(${N},1fr)`;
+  const hasPreLaunch = selectedProjects.some(p=>p.isPreLaunch);
+
+  // compute winners
+  const rowWinners = {};
+  winnerCounts = {};
+  selectedProjects.forEach(p=>winnerCounts[p.id]=0);
+
+  PARAMS.forEach(grp=>{
+    grp.params.forEach(param=>{
+      if(param.winner==='none') return;
+      const eligible = selectedProjects.map((p,i)=>({p,i})).filter(({p})=>!(param.isReraParam&&p.isPreLaunch));
+      if(eligible.length===0) return;
+      let winIdx=-1;
+      if(param.winner==='highest'){
+        const vals=eligible.map(({p})=>param.numVal?param.numVal(p):(typeof p[param.key]==='number'?p[param.key]:-Infinity));
+        const max=Math.max(...vals);
+        winIdx=eligible[vals.indexOf(max)]?.i??-1;
+      } else if(param.winner==='lowest'){
+        const vals=eligible.map(({p})=>typeof p[param.key]==='number'?p[param.key]:Infinity);
+        const min=Math.min(...vals);
+        winIdx=eligible[vals.indexOf(min)]?.i??-1;
+      } else if(param.winner==='specific'&&param.winnerFn){
+        winIdx=param.winnerFn(selectedProjects.map(p=>p[param.key]));
+      }
+      rowWinners[param.key]=winIdx;
+      if(winIdx>=0) winnerCounts[selectedProjects[winIdx].id]=(winnerCounts[selectedProjects[winIdx].id]||0)+1;
+    });
+  });
+
+  const overallWinnerId = Object.entries(winnerCounts).sort((a,b)=>b[1]-a[1])[0]?.[0];
+
+  // HEADER
+  const hdr = document.getElementById('proj-hdr');
+  hdr.style.gridTemplateColumns = cols;
+  hdr.innerHTML = `
+    <div class="lbl-col"><span>Your ${N} Shortlisted Projects</span></div>
+    ${selectedProjects.map(p=>`
+      <div class="pc ${p.id===overallWinnerId?'winner':''} ${p.isPreLaunch?'prelaunch':''}">
+        ${p.id===overallWinnerId?'<div class="pc-crown">🏆</div>':''}
+        <span class="pc-stage ${p.isPreLaunch?'stage-pl':'stage-rera'}">${p.isPreLaunch?'◈ Pre-Launch':'● RERA Registered'}</span>
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-dev">${p.developer}</div>
+        <div class="pc-score-row">
+          <span class="pc-snum" style="color:${p.isPreLaunch?'var(--teal)':'var(--gold)'}">${p.isPreLaunch?p.prelaunchScore:p.score}</span>
+          <span class="pc-smax">/ 10</span>
+          ${p.isPreLaunch?'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--teal)"> PL</span>':''}
+        </div>
+        <div class="pc-price">${p.priceDisplay}</div>
+        <div class="rpills">
+          <span class="rp ${p.rag.legal[0]}">Legal: ${p.rag.legal}</span>
+          <span class="rp ${p.rag.developer[0]}">Dev: ${p.rag.developer}</span>
+          ${p.isPreLaunch?`<span class="rp t">Pre-Launch</span>`:`<span class="rp ${p.rag.construction[0]}">Build: ${p.rag.construction}</span>`}
+          <span class="rp ${p.rag.location[0]}">Location: ${p.rag.location}</span>
+        </div>
+      </div>
+    `).join('')}
+  `;
+
+  // BUILD TABLE HTML
+  let html = '';
+
+  // Pre-launch notice if needed
+  if(hasPreLaunch){
+    html += `<div style="background:rgba(58,173,170,0.05);border-bottom:1px solid rgba(58,173,170,0.18);padding:9px 20px;display:grid;grid-template-columns:${cols}">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--teal);letter-spacing:1px;display:flex;align-items:center">◈ PRE-LAUNCH NOTE</div>
+      <div style="grid-column:2/-1;font-size:11px;color:var(--body);display:flex;align-items:center">
+        Projects marked ◈ Pre-Launch have HMDA approval but are not yet RERA registered. Delivery risk rows show <strong style="color:var(--off)">N/A</strong> — these parameters simply don't exist at this stage and are not counted against the score. Pre-launch scores use a separate framework. <strong style="color:var(--gold)">No payment until RERA registration is confirmed.</strong>
+      </div>
+    </div>`;
+  }
+
+  PARAMS.forEach(grp=>{
+    html += `<div class="grp-hdr" style="grid-template-columns:${cols}"><span style="grid-column:1/-1">${grp.group}</span></div>`;
+    grp.params.forEach(param=>{
+      const winIdx = rowWinners[param.key]??-1;
+      html += `<div class="row" style="grid-template-columns:${cols}">
+        <div class="pc2">
+          <div class="pn">${param.label}</div>
+          <div class="py">${param.why}</div>
+        </div>
+        ${selectedProjects.map((p,i)=>{
+          if(param.isReraParam && p.isPreLaunch){
+            return `<div class="dc na">
+              <span class="dbadge bt">◈ PRE-LAUNCH</span>
+              <div class="na-txt">N/A at this stage</div>
+              <div class="dn" style="margin-top:2px">Confirmed after RERA filing</div>
+            </div>`;
+          }
+          const rk = param.rag(p);
+          const isW = i===winIdx;
+          return `<div class="dc ${isW?'win':''}" onclick="openM('${p.id}')">
+            <span class="dbadge ${rk==='green'?'bg':rk==='amber'?'ba':'br'}">
+              ${rk==='green'?'●':rk==='amber'?'◐':'○'} ${rk.toUpperCase()}
+            </span>
+            <div class="dv ${rk}">${param.format(p)}</div>
+            ${param.note(p)?`<div class="dn">${param.note(p)}</div>`:''}
+            ${isW?`<div class="wtag">★ BEST IN COMPARISON</div>`:''}
+          </div>`;
+        }).join('')}
+      </div>`;
+    });
+  });
+
+  // VIEW FULL REPORT ROW
+  html += `<div class="row" style="grid-template-columns:${cols};background:rgba(255,255,255,0.01)">
+    <div class="pc2"><div class="pn">Full Analysis</div><div class="py">All SafeNest flags + verdict</div></div>
+    ${selectedProjects.map(p=>`
+      <div class="dc" onclick="openM('${p.id}')">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--gold);letter-spacing:1px">READ FULL REPORT →</div>
+        <div class="dn" style="margin-top:3px">${p.flags.length} verified flags</div>
+      </div>
+    `).join('')}
+  </div>`;
+
+  document.getElementById('tbl').innerHTML = html;
+
+  // WINNER BAR
+  const wb = document.getElementById('wbar');
+  const wi = document.getElementById('wbar-inner');
+  wb.style.display = 'block';
+  wi.style.gridTemplateColumns = cols;
+  wi.innerHTML = `
+    <div class="wbar-lbl"><span>Parameters Won</span></div>
+    ${selectedProjects.map(p=>`
+      <div class="wbc ${p.id===overallWinnerId?'win':''}">
+        <div class="wbc-n">${winnerCounts[p.id]||0} <span style="font-size:12px;color:var(--muted)">/ ${Object.keys(rowWinners).length}</span></div>
+        <div class="wbc-l">${p.name.split(' ').slice(0,2).join(' ')}</div>
+        ${p.id===overallWinnerId?'<div class="wbc-v">🏆 SafeNest Pick</div>':''}
+      </div>
+    `).join('')}
+  `;
+}
+
+/* ================================================================
+   MODAL
+================================================================ */
+function openM(id){
+  const p = ALL_PROJECTS.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('mbox').innerHTML = `
+    <div class="mhdr">
+      <button class="mclose" onclick="closeM()">✕</button>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <div class="mname">${p.name}</div>
+        ${p.isPreLaunch?`<span class="pc-stage stage-pl">◈ PRE-LAUNCH</span>`:`<span class="pc-stage stage-rera">● RERA STAGE</span>`}
+      </div>
+      <div class="mmeta">${p.developer} · ${p.location} · ${p.isPreLaunch?`Pre-Launch Score: ${p.prelaunchScore}/10`:`SafeNest Score: ${p.score}/10`}</div>
+    </div>
+    <div class="mbody">
+      ${p.isPreLaunch?`<div class="pl-info"><strong>Pre-Launch Framework:</strong> RERA is not yet registered for this project. Construction progress, bank approvals, escrow and delivery timeline are excluded from the score as they don't exist yet. The Pre-Launch Score of ${p.prelaunchScore}/10 reflects: Developer Track Record · Location Quality · Title Clarity · Price Advantage · USP Strength. <strong>Your SafeNest advisor's rule: Post-dated cheque only — zero payment before RERA registration confirmed.</strong></div>`:''}
+      <div class="msec">
+        <div class="msec-title">Key Facts</div>
+        <div class="mfacts">
+          <div class="mf"><div class="mfl">Price Range</div><div class="mfv">${p.priceDisplay}</div></div>
+          <div class="mf"><div class="mfl">Price / sqft</div><div class="mfv">₹${p.pricePerSqft.toLocaleString()}</div></div>
+          <div class="mf"><div class="mfl">Flat Sizes</div><div class="mfv">${p.unitSizes}</div></div>
+          <div class="mf"><div class="mfl">Configuration</div><div class="mfv">${p.bhk.join('/')} BHK</div></div>
+          ${p.isPreLaunch?`
+          <div class="mf"><div class="mfl">HMDA Approval</div><div class="mfv teal">Confirmed · ${p.hmda?.approvalDate||''}</div></div>
+          <div class="mf"><div class="mfl">RERA Expected</div><div class="mfv teal">${p.hmda?.expectedReraDate||'Verify'}</div></div>
+          <div class="mf"><div class="mfl">Payment Rule</div><div class="mfv amber">PDC Only · Post RERA</div></div>
+          <div class="mf"><div class="mfl">Construction</div><div class="mfv amber">Not started · Pre-RERA</div></div>
+          `:`
+          <div class="mf"><div class="mfl">Construction Done</div><div class="mfv ${p.workDone>=40?'green':p.workDone>=20?'amber':'red'}">${p.workDone}%</div></div>
+          <div class="mf"><div class="mfl">Possession</div><div class="mfv ${p.deliveryYear<=2027?'green':p.deliveryYear<=2029?'amber':'red'}">${p.deliveryDate}</div></div>
+          <div class="mf"><div class="mfl">Bank Approvals</div><div class="mfv ${p.bankApprovals>=4?'green':p.bankApprovals>=2?'amber':'red'}">${p.bankApprovals===0?'None yet':p.bankApprovals}</div></div>
+          <div class="mf"><div class="mfl">Escrow Bank</div><div class="mfv">${p.escrowBank}</div></div>
+          `}
+          <div class="mf"><div class="mfl">Land Title</div><div class="mfv ${p.titleType==='Outright Purchase'?'green':'amber'}">${p.titleType}</div></div>
+          <div class="mf"><div class="mfl">Parking</div><div class="mfv ${p.parkingRatio>=1.8?'green':'amber'}">${p.parkingRatio} per flat</div></div>
+          <div class="mf"><div class="mfl">Density</div><div class="mfv ${p.densityPerAcre<=80?'green':p.densityPerAcre<=110?'amber':'red'}">${p.densityPerAcre} flats/acre</div></div>
+          <div class="mf"><div class="mfl">5-Yr Growth Est.</div><div class="mfv ${p.appreciationCAGR>=12?'green':'amber'}">${p.appreciationCAGR}% p.a.</div></div>
+        </div>
+      </div>
+      <div class="msec">
+        <div class="msec-title">SafeNest Due Diligence Flags</div>
+        <div class="mflags">${p.flags.map(f=>`<div class="mflag ${f.type}">${f.text}</div>`).join('')}</div>
+      </div>
+      <div class="msec">
+        <div class="msec-title">SafeNest Verdict</div>
+        <div class="mverdict">${p.verdict}</div>
+        <div class="safenest-note">
+          <strong>SafeNest Advisory:</strong> This analysis is based on verified documents — RERA filings, EC, title reports, and brochure data. All figures should be re-verified before signing. Contact your SafeNest advisor for the full 50-parameter due diligence report on any project.
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+function closeM(){document.getElementById('overlay').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+</script>
+</body>
+</html>
