@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeNest Deep Research Report — Prestige Verdure</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B2A4A;--navy2:#0F1A2E;--navy3:#2D4068;
+  --gold:#C9A84C;--gold2:#E2C97B;--goldp:#F5EDD4;--goldb:#8A6520;
+  --cream:#F9F7F4;--cream2:#EDE9E1;--white:#FFFFFF;--border:#DDD8CE;
+  --slate:#4A5568;--muted:#8892A4;--charcoal:#1A1A1A;
+  --forest:#2E7D52;--forestp:#E6F4EC;--forestb:#1A5A35;
+  --amber:#D4860A;--amberp:#FEF3DC;--amberb:#7A4500;
+  --red:#B03020;--redp:#FDECEA;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);font-size:17px;line-height:1.75}
+@media print{.no-print{display:none!important}body{font-size:13px;background:white}.report-cover{min-height:auto}}
+
+/* COVER */
+.report-cover{background:var(--navy2);padding:2.5rem 2rem 2rem;position:relative;overflow:hidden}
+.cover-wm{position:absolute;top:0;right:-2rem;font-family:'Cormorant Garamond',serif;font-size:16rem;font-weight:300;color:rgba(201,168,76,0.04);line-height:1;pointer-events:none}
+.cover-tag{font-size:10px;font-weight:500;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:1.25rem}
+.cover-project{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:400;color:var(--white);line-height:1.15;margin-bottom:0.4rem}
+.cover-project em{color:var(--gold2);font-style:italic}
+.cover-dev{font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:1.75rem}
+
+/* SCORE GAUGE ROW */
+.cover-score-row{display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.gauge-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.gauge-label{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase}
+.rating-col{display:flex;flex-direction:column;justify-content:center;gap:6px}
+.rating-big{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:500;color:var(--gold2);line-height:1}
+.rating-sub{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase}
+.verdict-pill{display:inline-block;background:var(--forestp);color:var(--forestb);font-size:12px;font-weight:500;padding:4px 14px;border-radius:20px;letter-spacing:0.02em;margin-top:4px}
+/* LUXURY INDEX BLOCK */
+.lux-block{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:1rem 1.25rem;display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:160px}
+.lux-tag{font-size:9px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.lux-score-row{display:flex;align-items:baseline;gap:6px}
+.lux-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:500;color:var(--gold2);line-height:1}
+.lux-denom{font-size:1rem;color:rgba(255,255,255,0.3);font-family:'Cormorant Garamond',serif}
+.lux-seg{display:inline-block;background:rgba(201,168,76,0.15);color:var(--gold2);font-size:11px;font-weight:500;padding:3px 10px;border-radius:4px;letter-spacing:0.04em;margin-top:4px}
+.lux-desc{font-size:11px;color:rgba(255,255,255,0.4);line-height:1.5;margin-top:4px}
+.lux-prop{font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-top:6px}
+
+.cover-meta{border-top:1px solid rgba(255,255,255,0.1);padding-top:1rem;margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:1.5rem}
+.cmeta span{font-size:10px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;display:block}
+.cmeta strong{font-size:13px;color:rgba(255,255,255,0.75);font-weight:500}
+
+/* TIMESTAMP */
+.ts-bar{background:var(--amberp);border-bottom:1px solid #F0C870;padding:8px 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.ts-bar p{font-size:12px;color:var(--amberb)}
+
+/* PRINT BAR */
+.print-bar{max-width:780px;margin:0 auto;padding:0.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.btn-print{background:var(--navy);color:var(--white);border:none;border-radius:7px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn-advisor{background:var(--white);color:var(--navy);border:0.5px solid var(--navy);border-radius:7px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer}
+
+/* SECTION */
+.section{max-width:780px;margin:0 auto;padding:2rem 1.5rem;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.sec-tag{font-size:10px;font-weight:500;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:0.35rem}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,2.5vw,1.9rem);font-weight:400;color:var(--navy);line-height:1.2;margin-bottom:1rem}
+.sec-body{font-size:16px;color:var(--slate);line-height:1.8;margin-bottom:1rem}
+.sec-body strong{color:var(--charcoal);font-weight:500}
+
+/* VISION */
+.vision-block{background:var(--navy);border-radius:12px;padding:2rem;font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2vw,1.35rem);font-weight:300;color:rgba(255,255,255,0.85);font-style:italic;line-height:1.7}
+.vision-block em{color:var(--gold2);font-style:normal}
+
+/* VERDICT */
+.verdict-box{background:var(--forestp);border:1px solid #9ED4B2;border-radius:12px;padding:1.5rem;margin-bottom:1.25rem}
+.verdict-label{font-size:10px;font-weight:500;letter-spacing:0.15em;color:var(--forestb);text-transform:uppercase;margin-bottom:0.5rem}
+.verdict-text{font-size:clamp(16px,1.8vw,18px);color:var(--navy);line-height:1.65;font-weight:400}
+
+/* SCORE STAT ROW */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:1rem 0}
+.stat-card{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1rem}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:500;color:var(--navy);line-height:1}
+.stat-unit{font-size:11px;color:var(--gold);font-weight:500}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:4px}
+.stat-context{font-size:12px;color:var(--forest);margin-top:2px}
+
+/* RISK RADAR SECTION */
+.radar-section{display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;margin:1rem 0;background:var(--white);border:0.5px solid var(--border);border-radius:12px;padding:1.25rem}
+.radar-legend{flex:1;min-width:160px}
+.radar-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--navy);margin-bottom:0.75rem}
+.rl-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--slate);margin-bottom:6px;line-height:1.4}
+.rl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.radar-note{font-size:11px;color:var(--muted);margin-top:0.75rem;line-height:1.6;font-style:italic}
+
+/* STRENGTH CARDS */
+.strength-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:1rem}
+.strength-card{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:12px}
+.sc-icon{width:36px;height:36px;min-width:36px;background:var(--forestp);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.sc-title{font-size:14px;font-weight:500;color:var(--navy);margin-bottom:2px}
+.sc-body{font-size:13px;color:var(--slate);line-height:1.55}
+
+/* SUITABILITY */
+.suit-table{width:100%;border-collapse:collapse;font-size:14px}
+.suit-table th{background:var(--navy);color:rgba(255,255,255,0.7);font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;padding:9px 13px;text-align:left}
+.suit-table th:first-child{border-radius:8px 0 0 0}.suit-table th:last-child{border-radius:0 8px 0 0}
+.suit-table td{padding:10px 13px;border-bottom:0.5px solid var(--border);vertical-align:top}
+.suit-table tr:last-child td{border-bottom:none}
+.suit-table tr:nth-child(even) td{background:var(--cream)}.suit-table tr:nth-child(odd) td{background:var(--white)}
+.badge-yes{background:var(--forestp);color:var(--forestb);padding:2px 9px;border-radius:4px;font-size:12px;font-weight:500}
+.badge-cond{background:var(--amberp);color:var(--amberb);padding:2px 9px;border-radius:4px;font-size:12px;font-weight:500}
+.badge-no{background:#F0F0F0;color:#666;padding:2px 9px;border-radius:4px;font-size:12px;font-weight:500}
+
+/* FACT TABLE */
+.fact-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:1rem}
+.fact-table td{padding:9px 13px;border-bottom:0.5px solid var(--border);vertical-align:top}
+.fact-table tr:last-child td{border-bottom:none}
+.ftlabel{font-size:12px;color:var(--muted);width:42%;vertical-align:middle}
+.ftval{font-weight:500;color:var(--charcoal)}
+.ftval-note{font-size:12px;color:var(--slate);font-weight:400}
+.fact-table .hi-row td{background:var(--goldp)}
+.fact-table .hi-row .ftlabel{color:var(--goldb)}
+.fact-table .hi-row .ftval{color:#5A3D00}
+
+/* CONSTRUCTION PROGRESS */
+.progress-wrap{padding:1.5rem;background:var(--white);border:0.5px solid var(--border);border-radius:12px;margin-bottom:1rem}
+.progress-label{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem}
+.progress-track{display:flex;align-items:center;margin-bottom:1rem;position:relative}
+.progress-line{position:absolute;top:50%;left:0;right:0;height:2px;background:var(--border);z-index:0}
+.progress-fill{position:absolute;top:50%;left:0;height:2px;background:var(--gold);z-index:1;width:80%}
+.p-stages{display:flex;justify-content:space-between;width:100%;position:relative;z-index:2}
+.p-stage{display:flex;flex-direction:column;align-items:center;gap:5px}
+.p-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;border:2px solid var(--border);background:var(--white);color:var(--muted)}
+.p-circle.done{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.p-circle.active{background:var(--navy);border-color:var(--navy);color:var(--white);box-shadow:0 0 0 3px rgba(201,168,76,0.25)}
+.p-stage-label{font-size:10px;color:var(--muted);text-align:center;max-width:60px;line-height:1.3}
+.p-stage-label.active-lbl{color:var(--navy);font-weight:500}
+.progress-note{font-size:13px;color:var(--slate);line-height:1.6;margin-top:0.5rem;padding-top:0.75rem;border-top:0.5px solid var(--border)}
+
+/* ESCROW */
+.escrow-box{background:var(--navy);border-radius:10px;padding:1.25rem 1.5rem;margin:1rem 0}
+.escrow-title{font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem}
+.escrow-body{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7}
+
+/* PAYMENT TIMELINE */
+.pay-timeline{overflow-x:auto;padding:0.5rem 0 1rem}
+.ptl{display:flex;align-items:flex-start;gap:0;min-width:480px;position:relative}
+.ptl::before{content:'';position:absolute;top:28px;left:40px;right:40px;height:2px;background:var(--border);z-index:0}
+.ptl-fill{position:absolute;top:28px;left:40px;width:50%;height:2px;background:var(--gold);z-index:1}
+.pt-node{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:2}
+.pt-amount{font-size:10px;font-weight:500;color:var(--navy);text-align:center;margin-bottom:5px;line-height:1.3}
+.pt-circle{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;margin:0 auto}
+.pt-circle.paid{background:var(--gold);border-color:var(--gold)}
+.pt-circle.current{background:var(--navy);border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.2)}
+.pt-dot{width:6px;height:6px;border-radius:50%;background:var(--white)}
+.pt-label{font-size:9px;color:var(--muted);text-align:center;margin-top:5px;line-height:1.3;max-width:60px}
+.pt-label.curr{color:var(--navy);font-weight:500}
+
+/* WATCH ITEMS */
+.watch-list{display:flex;flex-direction:column;gap:10px}
+.watch-item{background:var(--amberp);border:0.5px solid #F0C870;border-radius:10px;padding:1rem 1.25rem}
+.watch-header{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.watch-title{font-size:13px;font-weight:500;color:var(--amberb)}
+.watch-body{font-size:13px;color:#5A3D05;line-height:1.65}
+.watch-action{font-size:12px;color:var(--forestb);font-weight:500;margin-top:6px}
+
+/* ACTION ITEMS */
+.action-group{margin-bottom:1.5rem}
+.action-stage{font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);border-left:2px solid var(--gold);padding-left:10px;margin-bottom:0.75rem}
+.action-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.action-list li{background:var(--white);border:0.5px solid var(--border);border-radius:8px;padding:10px 13px;display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--charcoal);line-height:1.55}
+.action-num{width:22px;height:22px;min-width:22px;background:var(--navy);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;margin-top:1px}
+
+/* DISCLAIMER + FOOTER */
+.disclaimer{max-width:780px;margin:0 auto;padding:1.5rem;background:var(--cream2);font-size:12px;color:var(--muted);line-height:1.7}
+.report-footer{background:var(--navy2);padding:1.1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:500;color:var(--gold)}
+.footer-conf{font-size:11px;color:rgba(255,255,255,0.22);letter-spacing:0.05em}
+
+@media(max-width:600px){.cover-score-row{flex-direction:column;gap:1rem}.p-stage-label{font-size:9px;max-width:48px}.p-circle{width:22px;height:22px;font-size:9px}}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="report-cover">
+  <div class="cover-wm">AA</div>
+  <div class="cover-tag">SafeNest Deep Research Report · Buyer Due Diligence Analysis</div>
+  <div class="cover-project">Prestige <em>Verdure</em></div>
+  <div class="cover-dev">Prestige Group · Kollur, ORR West Corridor · Hyderabad</div>
+
+  <div class="cover-score-row">
+    <!-- SCORE GAUGE -->
+    <div class="gauge-wrap">
+      <svg width="160" height="100" viewBox="0 0 160 100">
+        <defs>
+          <linearGradient id="gaug" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#C9A84C"/>
+            <stop offset="100%" stop-color="#E2C97B"/>
+          </linearGradient>
+        </defs>
+        <path d="M18 90 A62 62 0 0 1 142 90" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="12" stroke-linecap="round"/>
+        <path d="M18 90 A62 62 0 0 1 142 90" fill="none" stroke="url(#gaug)" stroke-width="12" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="25.35"/>
+        <text x="80" y="80" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="32" font-weight="500" fill="#E2C97B">8.7</text>
+        <text x="80" y="95" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,0.35)" letter-spacing="1.5">SAFENEST SCORE / 10</text>
+        <text x="16" y="98" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="rgba(255,255,255,0.2)">0</text>
+        <text x="144" y="98" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="rgba(255,255,255,0.2)">10</text>
+      </svg>
+      <div class="gauge-label">SafeNest Score</div>
+    </div>
+
+    <!-- CREDIT RATING -->
+    <div class="rating-col">
+      <div class="rating-big">AAA</div>
+      <div class="rating-sub">Credit Rating</div>
+      <div class="verdict-pill">Highly Favorable</div>
+    </div>
+
+    <!-- LUXURY INDEX — PROPRIETARY -->
+    <div class="lux-block">
+      <div class="lux-tag">SafeNest Luxury Index™</div>
+      <div class="lux-score-row">
+        <div class="lux-num">78</div>
+        <div class="lux-denom">/100</div>
+      </div>
+      <div class="lux-seg">✦ Luxury Segment</div>
+      <div class="lux-desc">Scored across 5 pillars: Construction · Density · Amenities · Spatial Comfort · Infrastructure</div>
+      <div class="lux-prop">Proprietary SafeNest Methodology</div>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <div class="cmeta"><span>RERA Registration</span><strong>P02400007891 · Active</strong></div>
+    <div class="cmeta"><span>Construction</span><strong>Finishing Stage</strong></div>
+    <div class="cmeta"><span>Possession</span><strong>December 2026</strong></div>
+    <div class="cmeta"><span>Report Date</span><strong id="cover-date">Loading…</strong></div>
+    <div class="cmeta"><span>Prepared By</span><strong>SafeNest Advisory</strong></div>
+  </div>
+</div>
+
+<!-- TIMESTAMP BAR -->
+<div class="ts-bar">
+  <p><strong>Accurate as of <span id="ts-date">Loading…</span>.</strong> Construction progress, regulatory status, and active offers change. Request an updated report before you sign anything.</p>
+  <p><strong>Next review trigger:</strong> OC Application</p>
+</div>
+
+<!-- PRINT BAR -->
+<div class="print-bar no-print">
+  <div style="font-size:12px;color:var(--muted)">Deep Research Report · Prestige Verdure · 13 Sections</div>
+  <div style="display:flex;gap:8px">
+    <button class="btn-advisor">Talk to Advisor · Free</button>
+    <button class="btn-print" onclick="window.print()">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="2" y="4" width="10" height="7" rx="1" stroke="white" stroke-width="1.2"/><path d="M4 4V2h6v2M4 11v2h6v-2" stroke="white" stroke-width="1.2"/></svg>
+      Save as PDF
+    </button>
+  </div>
+</div>
+
+<!-- S0: LIFE VISION -->
+<div class="section">
+  <div class="sec-tag">Your Future Home</div>
+  <h2 class="sec-title">Imagine this being your life</h2>
+  <div class="vision-block">You leave the office at Financial District. Twelve minutes later, via the ORR, you are at the entrance of Prestige Verdure — a <em>24-foot grand lobby</em> opening into 8 acres of gardens. Your children have a 40,000 sqft amenity world to grow up in. Your home has <em>10.6-foot ceilings</em>, two covered car parks, and a view that does not have another building blocking it. This is what your family's daily life looks like here.</div>
+</div>
+
+<!-- S1: VERDICT -->
+<div class="section">
+  <div class="sec-tag">Section 1 — SafeNest Verdict</div>
+  <h2 class="sec-title">Our honest assessment</h2>
+  <div class="verdict-box">
+    <div class="verdict-label">SafeNest says: Highly Favorable</div>
+    <div class="verdict-text">Prestige Verdure is among the strongest projects we have reviewed in the Kollur micro-market. The developer has a verified track record of 14 completed projects, construction is in its Finishing Stage, your money is protected in a dedicated HDFC escrow account, and the RERA registration is active with a clear land title. For a family looking to live in a premium, well-connected home in west Hyderabad, this project clears our checklist on almost every point. Two items deserve your attention before signing — they are specific and manageable, listed in Section 10.</div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-val">8.7<span class="stat-unit">/10</span></div><div class="stat-lbl">SafeNest Score</div></div>
+    <div class="stat-card"><div class="stat-val">AAA</div><div class="stat-lbl">Credit Rating</div></div>
+    <div class="stat-card"><div class="stat-val">Low</div><div class="stat-lbl">Overall Risk Level</div></div>
+    <div class="stat-card"><div class="stat-val">14</div><div class="stat-lbl">Developer projects delivered</div></div>
+  </div>
+</div>
+
+<!-- S2: STRENGTHS + RISK RADAR -->
+<div class="section">
+  <div class="sec-tag">Section 2 — Why This Project</div>
+  <h2 class="sec-title">What makes Prestige Verdure stand out</h2>
+
+  <div class="strength-grid">
+    <div class="strength-card">
+      <div class="sc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 11L14 16L9 13L4 16L6 11L2 7H7Z" fill="#2E7D52"/></svg></div>
+      <div><div class="sc-title">14 delivered projects — one of Hyderabad's most proven developers</div><div class="sc-body">Prestige Group's average delay across all 14 Hyderabad projects is under 4 months — well within acceptable tolerance for any buyer or bank.</div></div>
+    </div>
+    <div class="strength-card">
+      <div class="sc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="3" width="12" height="12" rx="2" fill="#2E7D52"/><path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div><div class="sc-title">Your money is legally protected at every stage</div><div class="sc-body">70% of all buyer payments go into a dedicated HDFC escrow account — locked by law, usable only for construction. This is the single most important financial protection SafeNest verifies.</div></div>
+    </div>
+    <div class="strength-card">
+      <div class="sc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" fill="#2E7D52"/><path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div><div class="sc-title">Finishing Stage — the construction risk is behind you</div><div class="sc-body">All floors are built. Interiors are being fitted. You can walk your floor today. The probability of significant delay or non-completion at this stage is very low.</div></div>
+    </div>
+    <div class="strength-card">
+      <div class="sc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 15L9 3L15 15H3Z" fill="#2E7D52"/></svg></div>
+      <div><div class="sc-title">112 sft of amenity per home — 5x the belt average</div><div class="sc-body">The Kollur belt average is 22 sft of amenity per flat. You get 112 sft — pools, courts, gym, gardens. For a family that will actually live here, this compounds in daily life.</div></div>
+    </div>
+  </div>
+
+  <!-- RISK RADAR -->
+  <div class="radar-section">
+    <svg width="210" height="180" viewBox="0 0 210 180" style="flex-shrink:0">
+      <!-- grid rings centered at 105,90 -->
+      <polygon points="105,18 165,54 165,126 105,162 45,126 45,54" fill="none" stroke="#EDE9E1" stroke-width="1"/>
+      <polygon points="105,38 148,65 148,115 105,142 62,115 62,65" fill="none" stroke="#EDE9E1" stroke-width="0.5" stroke-dasharray="3,2"/>
+      <polygon points="105,58 131,76 131,104 105,122 79,104 79,76" fill="none" stroke="#EDE9E1" stroke-width="0.5" stroke-dasharray="3,2"/>
+      <!-- axes -->
+      <line x1="105" y1="18" x2="105" y2="162" stroke="#EDE9E1" stroke-width="0.5"/>
+      <line x1="45" y1="54" x2="165" y2="126" stroke="#EDE9E1" stroke-width="0.5"/>
+      <line x1="165" y1="54" x2="45" y2="126" stroke="#EDE9E1" stroke-width="0.5"/>
+      <!-- data polygon: Legal(top), Developer(top-right), Escrow(bottom-right), Construction(bottom), Location(bottom-left), JV(top-left=watch) -->
+      <polygon points="105,22 158,57 158,118 105,152 52,120 56,62" fill="rgba(46,125,82,0.13)" stroke="#2E7D52" stroke-width="1.5"/>
+      <circle cx="105" cy="22" r="4" fill="#2E7D52"/>
+      <circle cx="158" cy="57" r="4" fill="#2E7D52"/>
+      <circle cx="158" cy="118" r="4" fill="#2E7D52"/>
+      <circle cx="105" cy="152" r="4" fill="#2E7D52"/>
+      <circle cx="52" cy="120" r="4" fill="#2E7D52"/>
+      <circle cx="56" cy="62" r="4" fill="#D4860A"/>
+      <!-- labels — text-anchor="end" on right side so text grows leftward, never clips -->
+      <text x="105" y="11" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#1B2A4A" font-weight="500">Legal</text>
+      <text x="206" y="54" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#1B2A4A" font-weight="500">Developer</text>
+      <text x="206" y="122" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#1B2A4A" font-weight="500">Escrow</text>
+      <text x="105" y="177" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#1B2A4A" font-weight="500">Construction</text>
+      <text x="4" y="122" text-anchor="start" font-family="DM Sans,sans-serif" font-size="9" fill="#1B2A4A" font-weight="500">Location</text>
+      <text x="4" y="57" text-anchor="start" font-family="DM Sans,sans-serif" font-size="9" fill="#D4860A" font-weight="500">JV · check</text>
+    </svg>
+    <div class="radar-legend">
+      <div class="radar-title">Risk Profile — Prestige Verdure</div>
+      <div class="rl-item"><div class="rl-dot" style="background:#2E7D52"></div>5 of 6 risk dimensions are strong</div>
+      <div class="rl-item"><div class="rl-dot" style="background:#D4860A"></div>JV: one document to verify (Section 10)</div>
+      <div class="radar-note">A large, regular polygon means balanced, low risk. Prestige Verdure's shape is strong across all dimensions — the slight inward dip on JV reflects one standard item to verify before registration, not a structural concern.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: SUITABILITY -->
+<div class="section">
+  <div class="sec-tag">Section 3 — Is This Right For You?</div>
+  <h2 class="sec-title">Who this project works best for</h2>
+  <div style="overflow-x:auto">
+  <table class="suit-table">
+    <thead><tr><th>Buyer Type</th><th>Fit</th><th>Reason</th></tr></thead>
+    <tbody>
+      <tr><td>End-user IT professional family</td><td><span class="badge-yes">Excellent fit</span></td><td style="font-size:13px">15 min to Hitech City, premium amenities, near completion — this is daily life here</td></tr>
+      <tr><td>Long-term investor (5+ years)</td><td><span class="badge-yes">Good fit</span></td><td style="font-size:13px">Kollur growing ~12% pa. Prestige brand adds strong resale demand</td></tr>
+      <tr><td>NRI buyer — purchasing remotely</td><td><span class="badge-yes">Good fit</span></td><td style="font-size:13px">Prestige's reputation means minimal surprises. Escrow protection reduces remote-buyer risk</td></tr>
+      <tr><td>First-time buyer, tight budget</td><td><span class="badge-cond">With guidance</span></td><td style="font-size:13px">Entry at ₹1.85 Cr is manageable — ask advisor about 50:50 plan to reduce early outflow</td></tr>
+      <tr><td>Short-term investor (flip in 2–3 yr)</td><td><span class="badge-no">Not now</span></td><td style="font-size:13px">A short exit may not recover GST + registration costs. Hold for 5+ years.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- S4: PROJECT SNAPSHOT -->
+<div class="section">
+  <div class="sec-tag">Section 4 — Project at a Glance</div>
+  <h2 class="sec-title">The facts, plain and simple</h2>
+  <div style="background:var(--white);border:0.5px solid var(--border);border-radius:12px;overflow:hidden">
+  <table class="fact-table">
+    <tr><td class="ftlabel">Project Name</td><td class="ftval">Prestige Verdure</td></tr>
+    <tr><td class="ftlabel">Developer</td><td class="ftval">Prestige Estates Projects Ltd · Listed company (BSE/NSE)</td></tr>
+    <tr><td class="ftlabel">Location</td><td class="ftval">Kollur, ORR West Corridor, Hyderabad</td></tr>
+    <tr><td class="ftlabel">RERA Number</td><td class="ftval">P02400007891 · <span style="color:var(--forest)">Active</span></td></tr>
+    <tr><td class="ftlabel">Configurations</td><td class="ftval">3 BHK and 4 BHK</td></tr>
+    <tr><td class="ftlabel">Size Range</td><td class="ftval">2,100 sft to 3,400 sft (saleable area)</td></tr>
+    <tr><td class="ftlabel">Total Homes</td><td class="ftval">240 homes across 3 towers</td></tr>
+    <tr class="hi-row"><td class="ftlabel">Possession</td><td class="ftval">December 2026</td></tr>
+    <tr><td class="ftlabel">Construction Type</td><td class="ftval">Mivan — aluminium formwork (premium, faster, stronger)</td></tr>
+    <tr><td class="ftlabel">Ceiling Height</td><td class="ftval">10.6 ft <span class="ftval-note">(belt standard: 9 ft)</span></td></tr>
+    <tr><td class="ftlabel">Corridor Width</td><td class="ftval">10.5 ft <span class="ftval-note">(palatial grade)</span></td></tr>
+    <tr><td class="ftlabel">Door Height</td><td class="ftval">8 ft <span class="ftval-note">(standard: 7 ft)</span></td></tr>
+    <tr><td class="ftlabel">Covered Parking</td><td class="ftval">2 slots per home · 480 total</td></tr>
+    <tr><td class="ftlabel">Amenity per Home</td><td class="ftval">112 sft <span class="ftval-note">(belt average: ~22 sft)</span></td></tr>
+    <tr><td class="ftlabel">Open Green Space</td><td class="ftval">72% of total project area</td></tr>
+    <tr><td class="ftlabel">Distance to ORR</td><td class="ftval">0.8 km from project gate</td></tr>
+    <tr><td class="ftlabel">Nearest IT Hub</td><td class="ftval">Financial District · 12 min via ORR</td></tr>
+    <tr><td class="ftlabel">Luxury Index</td><td class="ftval">78 / 100 · Classified: Luxury segment</td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- S5: LOCATION -->
+<div class="section">
+  <div class="sec-tag">Section 5 — Location Story</div>
+  <h2 class="sec-title">Why this location makes sense</h2>
+  <p class="sec-body">Kollur sits at the edge of Hyderabad's fastest-growing residential corridor. The ORR ramp is <strong>0.8 km from the project gate</strong> — Financial District IT parks are 12 minutes away. Gachibowli and Hitech City are 20–25 minutes. The airport is 45 minutes via ORR. Oakridge International School, Yashoda Hospital, and the confirmed Kollur metro extension (Phase 3) are within 3 km.</p>
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-val">0.8<span class="stat-unit">km</span></div><div class="stat-lbl">Distance to ORR</div></div>
+    <div class="stat-card"><div class="stat-val">12<span class="stat-unit">min</span></div><div class="stat-lbl">To Financial District</div></div>
+    <div class="stat-card"><div class="stat-val">~12<span class="stat-unit">% pa</span></div><div class="stat-lbl">5-year CAGR (historical)</div><div class="stat-context">Past trend — not guaranteed</div></div>
+    <div class="stat-card"><div class="stat-val">3<span class="stat-unit">km</span></div><div class="stat-lbl">School + Hospital</div></div>
+  </div>
+</div>
+
+<!-- S6: WHAT YOU GET -->
+<div class="section">
+  <div class="sec-tag">Section 6 — What You Get</div>
+  <h2 class="sec-title">Your home, and everything around it</h2>
+  <p class="sec-body">The project delivers <strong>112 sft of amenity per home</strong> (belt average: 22 sft), a <strong>rooftop infinity pool at 280 ft</strong>, and 72% open green space. Most of the parking and services are underground — the ground level is gardens, not a car park.</p>
+  <div class="strength-grid">
+    <div class="strength-card"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#2E7D52" stroke-width="1.5"/><path d="M9 5v4l3 2" stroke="#2E7D52" stroke-width="1.3" stroke-linecap="round"/></svg></div><div><div class="sc-title">Rooftop infinity pool at 280 ft</div><div class="sc-body">One of only two projects in Kollur with a rooftop pool. No comparable project at this price offers this.</div></div></div>
+    <div class="strength-card"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 14V8l5-5 5 5v6H4Z" stroke="#2E7D52" stroke-width="1.3"/></svg></div><div><div class="sc-title">10.6 ft ceilings throughout</div><div class="sc-body">Most apartments here have 9 ft ceilings. The difference is immediately visible — taller windows, more light, a luxury feel you experience every day.</div></div></div>
+    <div class="strength-card"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 15L9 3L15 15" stroke="#2E7D52" stroke-width="1.3" stroke-linecap="round"/><path d="M6 11h6" stroke="#2E7D52" stroke-width="1.3"/></svg></div><div><div class="sc-title">72% open green space</div><div class="sc-body">Walking out of your lobby into gardens — not a car park — is what this ratio means in daily life.</div></div></div>
+  </div>
+</div>
+
+<!-- S7: DEVELOPER -->
+<div class="section">
+  <div class="sec-tag">Section 7 — Who Built This</div>
+  <h2 class="sec-title">About Prestige Group</h2>
+  <p class="sec-body">Prestige Estates Projects Limited is listed on BSE and NSE — their financials are published every quarter. In Hyderabad, they have completed 14 residential projects with an average delay of approximately 4 months — within acceptable tolerance. No RERA complaints found on record for this project.</p>
+  <div style="background:var(--white);border:0.5px solid var(--border);border-radius:10px;overflow:hidden">
+  <table class="fact-table">
+    <tr><td class="ftlabel">Developer Entity</td><td class="ftval">Prestige Estates Projects Ltd · Listed (BSE + NSE)</td></tr>
+    <tr><td class="ftlabel">Hyderabad projects completed</td><td class="ftval">14 residential projects</td></tr>
+    <tr><td class="ftlabel">Average delivery delay</td><td class="ftval">~4 months across all projects</td></tr>
+    <tr><td class="ftlabel">RERA complaints (this project)</td><td class="ftval" style="color:var(--forest)">None on record</td></tr>
+    <tr><td class="ftlabel">Public financials available</td><td class="ftval" style="color:var(--forest)">Yes — verify at BSE/NSE quarterly filings</td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- S8: CONSTRUCTION PROGRESS -->
+<div class="section">
+  <div class="sec-tag">Section 8 — Construction Progress</div>
+  <h2 class="sec-title">How far along is your home?</h2>
+  <div class="progress-wrap">
+    <div class="progress-label">Construction Journey — Current Stage Highlighted</div>
+    <div class="progress-track">
+      <div class="progress-line"></div>
+      <div class="progress-fill"></div>
+      <div class="p-stages">
+        <div class="p-stage"><div class="p-circle done">1</div><div class="p-stage-label">Foundation</div></div>
+        <div class="p-stage"><div class="p-circle done">2</div><div class="p-stage-label">Structure &lt;50%</div></div>
+        <div class="p-stage"><div class="p-circle done">3</div><div class="p-stage-label">Structure &gt;50%</div></div>
+        <div class="p-stage"><div class="p-circle active">4</div><div class="p-stage-label active-lbl">Finishing ← Now</div></div>
+        <div class="p-stage"><div class="p-circle">5</div><div class="p-stage-label">OC Complete</div></div>
+      </div>
+    </div>
+    <div class="progress-note"><strong style="color:var(--navy)">What "Finishing Stage" means:</strong> All floors are built. The team is now tiling, fitting, and finishing common areas. This is the safest point to buy — you can visit your actual floor. Structural risk is eliminated. Expected possession: December 2026.</div>
+  </div>
+</div>
+
+<!-- S9: FINANCIAL SAFETY -->
+<div class="section">
+  <div class="sec-tag">Section 9 — Is My Money Safe?</div>
+  <h2 class="sec-title">How your payments are protected</h2>
+  <div class="escrow-box">
+    <div class="escrow-title">What is an Escrow Account</div>
+    <div class="escrow-body">Think of it as a locked box at HDFC Bank. When you pay, 70% goes into this box. The developer can only take money out to pay for construction — nothing else, by law. Prestige Verdure has a confirmed 3-account RERA escrow structure. SBI, HDFC, and ICICI have all independently approved this project for home loans — meaning three banks have verified its legal and financial structure.</div>
+  </div>
+
+  <p style="font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin:1.25rem 0 0.6rem">Payment Journey — 3 BHK · 2,100 sft · CLP Plan (Example)</p>
+  <div class="pay-timeline">
+    <div class="ptl">
+      <div class="ptl-fill"></div>
+      <div class="pt-node"><div class="pt-amount">₹18.5L<br><span style="font-size:9px;color:#8892A4">10%</span></div><div class="pt-circle paid"><div class="pt-dot"></div></div><div class="pt-label">Booking</div></div>
+      <div class="pt-node"><div class="pt-amount">₹27.7L<br><span style="font-size:9px;color:#8892A4">15%</span></div><div class="pt-circle paid"><div class="pt-dot"></div></div><div class="pt-label">Agreement</div></div>
+      <div class="pt-node"><div class="pt-amount">₹77.5L<br><span style="font-size:9px;color:#8892A4">42% in 6 stages</span></div><div class="pt-circle current"><div class="pt-dot" style="background:var(--gold)"></div></div><div class="pt-label curr">Construction ← Now</div></div>
+      <div class="pt-node"><div class="pt-amount">₹9.2L<br><span style="font-size:9px;color:#8892A4">5%</span></div><div class="pt-circle"><div class="pt-dot" style="background:#DDD8CE"></div></div><div class="pt-label">OC + Keys</div></div>
+      <div class="pt-node"><div class="pt-amount">₹32.4L<br><span style="font-size:9px;color:#8892A4">GST+Reg</span></div><div class="pt-circle"><div class="pt-dot" style="background:#DDD8CE"></div></div><div class="pt-label">Registration</div></div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--muted);font-style:italic;margin-top:6px">* Estimates only. Confirm exact all-in cost with your advisor before booking. 50:50 plan (₹8,200/sft) saves ~₹13L on total cost but requires larger upfront outflow. Advisor can walk you through both options in 10 minutes.</p>
+</div>
+
+<!-- S10: THINGS TO KNOW -->
+<div class="section">
+  <div class="sec-tag">Section 10 — Things to Know</div>
+  <h2 class="sec-title">A few things that deserve your attention</h2>
+  <p class="sec-body">These are not reasons to walk away. They are specific items that every informed buyer should understand and verify before signing. Your SafeNest advisor will guide you through each one at no cost.</p>
+  <div class="watch-list">
+    <div class="watch-item">
+      <div class="watch-header">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#D4860A" stroke-width="1.3"/><line x1="8" y1="5.5" x2="8" y2="9" stroke="#D4860A" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r="0.7" fill="#D4860A"/></svg>
+        <div class="watch-title">Bank construction mortgage is active on the land</div>
+      </div>
+      <div class="watch-body">Prestige Group has taken a construction loan from Axis Bank against this project's land. This is completely standard — almost every RERA-registered project carries one. It does not affect your purchase, but it requires one extra step: this mortgage must be officially released before your flat is registered in your name. This is the developer's responsibility to arrange.</div>
+      <div class="watch-action">What to do: Ask your independent lawyer to confirm the mortgage release clause is clearly written in your Agreement of Sale before you sign. This takes a lawyer approximately 30 minutes to verify.</div>
+    </div>
+    <div class="watch-item">
+      <div class="watch-header">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#D4860A" stroke-width="1.3"/><line x1="8" y1="5.5" x2="8" y2="9" stroke="#D4860A" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r="0.7" fill="#D4860A"/></svg>
+        <div class="watch-title">Possession is December 2026 — plan a buffer</div>
+      </div>
+      <div class="watch-body">The project is in Finishing Stage and the December 2026 timeline appears achievable based on our site visit. Finishing work — common areas, landscaping, OC documentation — can sometimes run 2–3 months longer. We are not flagging this as a concern; we are asking you to factor it into your planning.</div>
+      <div class="watch-action">What to do: Plan your move-in arrangements with a buffer of 3 months beyond December 2026. Ask the developer for a written construction milestone schedule at the time of booking.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S11: BEFORE YOU SIGN -->
+<div class="section">
+  <div class="sec-tag">Section 11 — Before You Sign</div>
+  <h2 class="sec-title">Your step-by-step checklist</h2>
+  <div class="action-group">
+    <div class="action-stage">Before Booking</div>
+    <ul class="action-list">
+      <li><div class="action-num">1</div><div>Visit the site. Walk your floor. Seeing the ceiling height and the construction quality in person tells you more than any report.</div></li>
+      <li><div class="action-num">2</div><div>Verify RERA number P02400007891 yourself at rera.telangana.gov.in — takes 2 minutes.</div></li>
+      <li><div class="action-num">3</div><div>Get your home loan pre-approved by SBI, HDFC, or ICICI before you book. They have already approved this project — this step is fast.</div></li>
+    </ul>
+  </div>
+  <div class="action-group">
+    <div class="action-stage">Before Signing the Agreement of Sale</div>
+    <ul class="action-list">
+      <li><div class="action-num">4</div><div>Hire an independent property lawyer (not the developer's lawyer) to review the AOS. Specifically: check the mortgage release clause, delay penalty, and OC timeline. Expect to pay ₹5,000–10,000.</div></li>
+      <li><div class="action-num">5</div><div>Confirm your exact flat number, floor, facing, and car park slot in writing on the AOS letterhead. Verbal agreements do not hold legally.</div></li>
+    </ul>
+  </div>
+  <div class="action-group">
+    <div class="action-stage">Before Registration</div>
+    <ul class="action-list">
+      <li><div class="action-num">6</div><div>Confirm the Occupancy Certificate has been issued or applied for before proceeding with registration. Without OC, the flat is technically not legally occupiable.</div></li>
+      <li><div class="action-num">7</div><div>Confirm the Axis Bank construction mortgage has been officially released (NOC from Axis Bank). Your lawyer verifies this. Must be done before your registration appointment.</div></li>
+    </ul>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <p style="margin-bottom:0.5rem"><strong>Important — Please Read</strong></p>
+  <p>This report was prepared by SafeNest Advisory on <strong id="disc-date">Loading…</strong> based on documents reviewed and a site visit conducted. It is a point-in-time assessment. Construction progress, regulatory status, pricing, and legal matters may change. SafeNest does not perform legal title searches — title verification is the buyer's responsibility through their independent property lawyer. SafeNest Advisory is buyer-only — we accept no payments from developers for ratings or placements. <strong>Next review trigger:</strong> OC Application received.</p>
+</div>
+
+<div class="report-footer">
+  <div class="footer-brand">SafeNest Advisory</div>
+  <div class="footer-conf">Confidential · Buyer Due Diligence · <span id="footer-date">Loading…</span> · Not for circulation</div>
+</div>
+
+<script>
+(function(){
+  var d=new Date();
+  var m=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var fmt=d.getDate()+' '+m[d.getMonth()]+' '+d.getFullYear();
+  ['cover-date','ts-date','disc-date'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=fmt;});
+  var fd=document.getElementById('footer-date');if(fd)fd.textContent=m[d.getMonth()]+' '+d.getFullYear();
+})();
+</script>
+</body>
+</html>

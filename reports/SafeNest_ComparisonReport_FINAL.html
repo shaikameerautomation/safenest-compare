@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeNest Project Shortlist — Comparison Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B2A4A;--navy2:#0F1A2E;--navy3:#243660;
+  --gold:#C9A84C;--gold2:#E2C97B;--goldp:#F5EDD4;--goldb:#8A6520;--goldborder:#D4A840;
+  --cream:#F9F7F4;--cream2:#EDE9E1;--white:#FFFFFF;--border:#DDD8CE;
+  --slate:#4A5568;--muted:#8892A4;--charcoal:#1A1A1A;
+  --forest:#2E7D52;--forestp:#E6F4EC;--forestb:#1A5A35;
+  --amber:#D4860A;--amberp:#FEF3DC;--amberb:#7A4500;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);font-size:15px;line-height:1.7}
+@media print{.no-print{display:none!important}body{font-size:12px;background:white}.section{padding:1.2rem 1.5rem}}
+
+/* COVER */
+.cover{background:var(--navy2);padding:2.5rem 2rem 2rem;position:relative;overflow:hidden}
+.cover::after{content:'3';position:absolute;right:-1rem;top:-2rem;font-family:'Cormorant Garamond',serif;font-size:20rem;font-weight:300;color:rgba(201,168,76,0.04);line-height:1;pointer-events:none}
+.cover-tag{font-size:10px;font-weight:500;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem}
+.cover-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:var(--white);line-height:1.15;margin-bottom:0.3rem}
+.cover-title em{color:var(--gold2);font-style:italic}
+.criteria-box{background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:1.25rem 1.5rem;margin:1.25rem 0}
+.criteria-title{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem}
+.criteria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.75rem}
+.crit-label{font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:2px}
+.crit-val{font-size:13px;color:rgba(255,255,255,0.8);font-weight:500}
+.cover-stmt{background:rgba(201,168,76,0.08);border-left:2px solid var(--gold);padding:1rem 1.25rem;border-radius:0 8px 8px 0;margin-bottom:1.25rem}
+.cover-stmt p{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.65;font-style:italic}
+.cover-stmt em{color:var(--gold2);font-style:normal;font-weight:500}
+.cover-meta{border-top:1px solid rgba(255,255,255,0.08);padding-top:1rem;display:flex;flex-wrap:wrap;gap:1.5rem}
+.cmeta span{font-size:10px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;display:block}
+.cmeta strong{font-size:13px;color:rgba(255,255,255,0.7);font-weight:500}
+
+/* TIMESTAMP */
+.ts-bar{background:var(--amberp);border-bottom:1px solid #F0C870;padding:7px 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.ts-bar p{font-size:12px;color:var(--amberb)}
+
+/* PRINT BAR */
+.print-bar{max-width:960px;margin:0 auto;padding:0.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.btn-print{background:var(--navy);color:var(--white);border:none;border-radius:7px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px}
+
+/* SECTION */
+.section{max-width:960px;margin:0 auto;padding:2rem 1.5rem;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.sec-tag{font-size:10px;font-weight:500;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:0.35rem}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,2.2vw,1.8rem);font-weight:400;color:var(--navy);line-height:1.2;margin-bottom:0.75rem}
+.sec-body{font-size:14px;color:var(--slate);line-height:1.75;margin-bottom:0.75rem}
+
+/* ── PROFILE MATCH CARDS ── */
+.match-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1rem}
+@media(max-width:580px){.match-grid{grid-template-columns:1fr}}
+.match-card{border-radius:10px;border:0.5px solid var(--border);overflow:hidden}
+.match-card.recommended{border:2px solid var(--goldborder)}
+.match-head{padding:0.9rem 1rem;background:var(--white)}
+.match-proj-num{font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.match-proj-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy);line-height:1.2;margin-bottom:4px}
+.match-proj-loc{font-size:10px;color:var(--muted);margin-bottom:8px}
+.match-score-row{display:flex;align-items:baseline;gap:5px;margin-bottom:5px}
+.match-pct{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:500;color:var(--navy);line-height:1}
+.match-pct-lbl{font-size:10px;color:var(--muted);line-height:1.3}
+.match-bar-track{height:4px;background:var(--cream2);border-radius:2px;margin-bottom:6px}
+.match-bar-fill{height:4px;border-radius:2px}
+.match-badge{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:4px;letter-spacing:0.06em}
+.mb-rec{background:var(--goldp);color:var(--goldb)}
+.mb-strong{background:var(--forestp);color:var(--forestb)}
+.mb-good{background:#E8F1FD;color:#0C447C}
+.match-chips{padding:8px 10px;background:var(--cream);border-top:0.5px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.chip-row{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--slate)}
+.chip-dot{width:7px;height:7px;min-width:7px;border-radius:50%}
+.cd-g{background:var(--forest)}.cd-a{background:var(--amber)}.cd-r{background:#C0392B}
+
+/* ── TABLE ── */
+.table-note{font-size:12px;color:var(--muted);margin-bottom:0.75rem;padding:8px 10px;background:var(--cream2);border-radius:6px;line-height:1.5}
+.scroll-hint{display:none;font-size:11px;color:var(--muted);text-align:center;padding:4px;margin-bottom:6px}
+@media(max-width:680px){.scroll-hint{display:block}}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;border:0.5px solid var(--border)}
+.comp-table{width:100%;min-width:600px;border-collapse:collapse;font-size:13px}
+.comp-table td:first-child,.comp-table th:first-child{position:sticky;left:0;z-index:2;min-width:150px;max-width:170px}
+.comp-table td:first-child{background:var(--cream);color:var(--slate);font-size:12px;line-height:1.45}
+.comp-table th:first-child{background:var(--navy2)}
+.comp-table .sec-row td{background:var(--navy);color:rgba(255,255,255,0.7);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:7px 12px;border:none}
+.comp-table .sec-row td:first-child{background:var(--navy2);color:var(--gold);position:sticky;left:0;z-index:3}
+.comp-table td{padding:8px 11px;border-bottom:0.5px solid var(--border);vertical-align:middle;color:var(--charcoal)}
+.comp-table th{padding:10px 11px;background:var(--navy2);color:rgba(255,255,255,0.6);font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;text-align:left;border-right:0.5px solid rgba(255,255,255,0.08)}
+.comp-table .c1{background:var(--white)}.comp-table .c2{background:#FDFCFB}.comp-table .c3{background:#FDFCFB}
+
+/* CHIP CELLS */
+.chip-g{background:var(--forestp);color:var(--forestb);font-size:11px;font-weight:500;padding:2px 9px;border-radius:4px;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.chip-w{background:var(--cream2);color:var(--slate);font-size:11px;padding:2px 9px;border-radius:4px;display:inline-flex;align-items:center;white-space:nowrap}
+.chip-a{background:var(--amberp);color:var(--amberb);font-size:11px;font-weight:500;padding:2px 9px;border-radius:4px;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.chip-check{color:var(--forest);font-weight:500;font-size:12px}
+.cell-note{font-size:10px;color:var(--muted);display:block;margin-top:1px}
+
+/* LUXURY INDEX PILL IN MATCH CARDS */
+.lux-pill-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap}
+.lux-score-badge{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;color:var(--navy);line-height:1}
+.lux-seg-pill{font-size:9px;font-weight:600;padding:2px 8px;border-radius:3px;letter-spacing:0.05em}
+.lsp-ulx{background:var(--goldp);color:#7A5C0A}
+.lsp-lux{background:#F0EBF8;color:#4A2D7A}
+.lsp-pre{background:#E8F1FD;color:#0C447C}
+.lux-index-label{font-size:9px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase}
+.lux-prop-note{font-size:9px;color:var(--gold);font-weight:500;letter-spacing:0.04em}
+.sp-fin{background:var(--forestp);color:var(--forestb);font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px;display:inline-block}
+.sp-wip{background:var(--amberp);color:var(--amberb);font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px;display:inline-block}
+
+/* WHY CARDS */
+.why-grid{display:flex;flex-direction:column;gap:14px}
+.why-card{background:var(--white);border:0.5px solid var(--border);border-radius:12px;overflow:hidden}
+.why-card-head{display:flex;align-items:center;gap:10px;padding:0.9rem 1.25rem;border-bottom:0.5px solid var(--border);flex-wrap:wrap}
+.why-tag{font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px}
+.wt-1{background:#EEF2FF;color:#3730A3}.wt-2{background:var(--forestp);color:var(--forestb)}.wt-3{background:var(--amberp);color:var(--amberb)}
+.why-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:500;color:var(--navy)}
+.why-buyer{margin-left:auto;font-size:10px;font-weight:500;background:var(--cream2);color:var(--slate);padding:3px 8px;border-radius:4px;white-space:nowrap}
+.why-body{padding:1rem 1.25rem;font-size:14px;color:var(--slate);line-height:1.75}
+.why-body strong{color:var(--charcoal);font-weight:500}
+
+/* ── VERDICT REDESIGN ── */
+.verdict-hero{background:var(--navy2);border-radius:12px;overflow:hidden;border:2px solid var(--goldborder);margin-bottom:1.25rem}
+.vh-header{background:rgba(0,0,0,0.3);padding:1rem 1.5rem;border-bottom:1px solid rgba(201,168,76,0.15)}
+.vh-tag{font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.vh-for{font-size:12px;color:rgba(255,255,255,0.35);font-style:italic}
+.vh-body{padding:1.5rem}
+.vh-rec-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:1.25rem}
+.vh-badge{background:var(--goldp);border:1px solid var(--goldborder);border-radius:5px;padding:3px 12px;font-size:10px;font-weight:600;color:var(--goldb);letter-spacing:0.06em}
+.vh-proj{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;color:var(--white);line-height:1.15}
+.vh-proj em{color:var(--gold2);font-style:italic}
+.vh-reasons{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.vhr{display:flex;align-items:flex-start;gap:10px}
+.vhr-n{width:20px;height:20px;min-width:20px;border:1px solid rgba(201,168,76,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(201,168,76,0.8);margin-top:1px;flex-shrink:0}
+.vhr-t{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.55}
+.vhr-t strong{color:rgba(255,255,255,0.88);font-weight:500}
+.vh-others{background:rgba(255,255,255,0.04);border-radius:8px;padding:1rem 1.1rem;margin-top:1rem;border:0.5px solid rgba(255,255,255,0.08)}
+.vh-others-title{font-size:10px;font-weight:500;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem}
+.vh-other{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:5px;line-height:1.55}
+.vh-other strong{color:rgba(255,255,255,0.7);font-weight:500}
+.vh-footer{font-size:11px;color:rgba(255,255,255,0.3);font-style:italic;margin-top:1rem;padding-top:0.75rem;border-top:0.5px solid rgba(255,255,255,0.08)}
+
+/* NEXT STEPS */
+.step-card{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.step-num{width:32px;height:32px;min-width:32px;background:var(--navy);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:500;flex-shrink:0}
+.step-title{font-size:14px;font-weight:500;color:var(--navy);margin-bottom:3px}
+.step-body{font-size:13px;color:var(--slate);line-height:1.6}
+.advisor-cta{background:var(--navy);border-radius:12px;padding:1.5rem;text-align:center;margin-top:1.25rem}
+.cta-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;color:var(--gold2);margin-bottom:2px}
+.cta-phone{font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:1rem}
+.btn-cta{display:inline-block;background:var(--gold);color:var(--navy2);border:none;border-radius:8px;padding:10px 24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+
+/* FOOTER */
+.disclaimer{max-width:960px;margin:0 auto;padding:1.5rem;background:var(--cream2);font-size:12px;color:var(--muted);line-height:1.7}
+.report-footer{background:var(--navy2);padding:1.1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:500;color:var(--gold)}
+.footer-conf{font-size:11px;color:rgba(255,255,255,0.22);letter-spacing:0.05em}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">SafeNest Advisory · Advisor Report 2 · Confidential</div>
+  <div class="cover-title"><em>Project Shortlist</em><br>3 Projects Selected for Your Criteria</div>
+
+  <div class="criteria-box">
+    <div class="criteria-title">Your Buyer Profile</div>
+    <div class="criteria-grid">
+      <div><span class="crit-label">Budget</span><span class="crit-val">₹1.8 Cr – ₹3.5 Cr</span></div>
+      <div><span class="crit-label">Configuration</span><span class="crit-val">3 BHK</span></div>
+      <div><span class="crit-label">Micro-Markets</span><span class="crit-val">Kollur, Kokapet, Narsingi</span></div>
+      <div><span class="crit-label">Possession By</span><span class="crit-val">December 2027</span></div>
+      <div><span class="crit-label">Purpose</span><span class="crit-val">End-Use</span></div>
+      <div><span class="crit-label">Segment</span><span class="crit-val">Premium to Luxury</span></div>
+    </div>
+  </div>
+
+  <div class="cover-stmt"><p>SafeNest reviewed <em>14 projects</em> matching your criteria. These 3 were selected for the strongest combination of value, safety, and lifestyle fit. <em>All 3 are worth a site visit.</em></p></div>
+
+  <div class="cover-meta">
+    <div class="cmeta"><span>Advisor</span><strong>Ameer Shaik · SafeNest Advisory</strong></div>
+    <div class="cmeta"><span>Report Date</span><strong id="cover-date">Loading…</strong></div>
+    <div class="cmeta"><span>Valid For</span><strong>30 days from report date</strong></div>
+    <div class="cmeta"><span>Buyer</span><strong>Rajesh &amp; Priya Kumar</strong></div>
+  </div>
+</div>
+
+<!-- TIMESTAMP -->
+<div class="ts-bar">
+  <p><strong>Accurate as of <span id="ts-date">Loading…</span>.</strong> Prices, construction stages, and active offers change. Request a fresh report if more than 30 days have passed.</p>
+  <p><strong>Confidential</strong> — Advisory meeting only</p>
+</div>
+
+<!-- PRINT BAR -->
+<div class="print-bar no-print">
+  <div style="font-size:12px;color:var(--muted)">Advisor Report 2 · Prestige Verdure · Lansum El Palacio · IRA Panorama</div>
+  <button class="btn-print" onclick="window.print()">Save / Print Report</button>
+</div>
+
+<!-- ── PROFILE MATCH CARDS ── -->
+<div class="section">
+  <div class="sec-tag">Profile Match</div>
+  <h2 class="sec-title">How each project fits your profile</h2>
+  <p class="sec-body" style="font-size:13px">Calculated from 5 criteria: budget fit, possession timeline, segment match, configuration, and micro-market preference. This is a profile-match score — not an overall quality score.</p>
+
+  <div class="match-grid">
+
+    <div class="match-card recommended">
+      <div class="match-head">
+        <div class="match-proj-num">Project 1</div>
+        <div class="match-proj-name">Prestige Verdure</div>
+        <div class="match-proj-loc">Kollur, ORR West Corridor</div>
+        <!-- Three proprietary scores -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 4px;align-items:center">
+          <div style="text-align:center;background:rgba(27,42,74,0.06);border-radius:6px;padding:4px 8px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:var(--navy);line-height:1">8.7</div>
+            <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:1px">Score</div>
+          </div>
+          <div style="text-align:center;background:#E6F4EC;border-radius:6px;padding:4px 8px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:#1A5A35;line-height:1">AAA</div>
+            <div style="font-size:8px;color:#2E7D52;text-transform:uppercase;letter-spacing:0.06em;margin-top:1px">Rating</div>
+          </div>
+          <div style="text-align:center;background:var(--goldp);border-radius:6px;padding:4px 8px;flex:1;min-width:60px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:#7A5C0A;line-height:1">78<span style="font-size:0.7rem">/100</span></div>
+            <div style="font-size:8px;color:#8A6520;text-transform:uppercase;letter-spacing:0.04em;margin-top:1px">Luxury Index™</div>
+          </div>
+        </div>
+        <div style="font-size:9px;font-weight:500;color:var(--gold);letter-spacing:0.04em;margin-bottom:6px">✦ Luxury Segment · Proprietary SafeNest Index</div>
+        <div class="match-score-row">
+          <div class="match-pct">94<span style="font-size:1rem;color:var(--muted)">%</span></div>
+          <div class="match-pct-lbl">profile<br>match</div>
+        </div>
+        <div class="match-bar-track"><div class="match-bar-fill" style="width:94%;background:var(--gold)"></div></div>
+        <span class="match-badge mb-rec">SafeNest Recommends</span>
+      </div>
+      <div class="match-chips">
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Budget: comfortably within range</div>
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Possession: Dec 2026 — ahead of your target</div>
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Segment: Luxury — matches preference</div>
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Kollur on your micro-market list</div>
+        <div class="chip-row"><div class="chip-dot cd-a"></div>Size: 2,100 sft — slightly below ideal 2,400</div>
+      </div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-head">
+        <div class="match-proj-num">Project 2</div>
+        <div class="match-proj-name">Lansum El Palacio</div>
+        <div class="match-proj-loc">Kokapet, Financial District Belt</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 4px;align-items:center">
+          <div style="text-align:center;background:rgba(27,42,74,0.06);border-radius:6px;padding:4px 8px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:var(--navy);line-height:1">7.6</div>
+            <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:1px">Score</div>
+          </div>
+          <div style="text-align:center;background:#E8F1FD;border-radius:6px;padding:4px 8px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:#0C447C;line-height:1">AA</div>
+            <div style="font-size:8px;color:#185FA5;text-transform:uppercase;letter-spacing:0.06em;margin-top:1px">Rating</div>
+          </div>
+          <div style="text-align:center;background:var(--goldp);border-radius:6px;padding:4px 8px;flex:1;min-width:60px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:#7A5C0A;line-height:1">91<span style="font-size:0.7rem">/100</span></div>
+            <div style="font-size:8px;color:#8A6520;text-transform:uppercase;letter-spacing:0.04em;margin-top:1px">Luxury Index™</div>
+          </div>
+        </div>
+        <div style="font-size:9px;font-weight:500;color:#7A5C0A;letter-spacing:0.04em;margin-bottom:6px">◆ Ultra Luxury Segment · Highest in this shortlist</div>
+        <div class="match-score-row">
+          <div class="match-pct">71<span style="font-size:1rem;color:var(--muted)">%</span></div>
+          <div class="match-pct-lbl">profile<br>match</div>
+        </div>
+        <div class="match-bar-track"><div class="match-bar-fill" style="width:71%;background:var(--forest)"></div></div>
+        <span class="match-badge mb-strong">Strong Match</span>
+      </div>
+      <div class="match-chips">
+        <div class="chip-row"><div class="chip-dot cd-a"></div>Budget: ₹3.1 Cr — 10% above upper limit</div>
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Possession: Jun 2027 — within timeline</div>
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Segment: Ultra Luxury — exceeds preference</div>
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Kokapet on your micro-market list</div>
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Size: 2,800 sft — above your ideal</div>
+      </div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-head">
+        <div class="match-proj-num">Project 3</div>
+        <div class="match-proj-name">IRA Panorama</div>
+        <div class="match-proj-loc">Narsingi, ORR South</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 4px;align-items:center">
+          <div style="text-align:center;background:rgba(27,42,74,0.06);border-radius:6px;padding:4px 8px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:var(--navy);line-height:1">6.9</div>
+            <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:1px">Score</div>
+          </div>
+          <div style="text-align:center;background:#EFF6FB;border-radius:6px;padding:4px 8px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:#185FA5;line-height:1">A</div>
+            <div style="font-size:8px;color:#185FA5;text-transform:uppercase;letter-spacing:0.06em;margin-top:1px">Rating</div>
+          </div>
+          <div style="text-align:center;background:#E8F1FD;border-radius:6px;padding:4px 8px;flex:1;min-width:60px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:#0C447C;line-height:1">59<span style="font-size:0.7rem">/100</span></div>
+            <div style="font-size:8px;color:#185FA5;text-transform:uppercase;letter-spacing:0.04em;margin-top:1px">Luxury Index™</div>
+          </div>
+        </div>
+        <div style="font-size:9px;font-weight:500;color:#185FA5;letter-spacing:0.04em;margin-bottom:6px">★ Premium Segment · Good value at this price point</div>
+        <div class="match-score-row">
+          <div class="match-pct">68<span style="font-size:1rem;color:var(--muted)">%</span></div>
+          <div class="match-pct-lbl">profile<br>match</div>
+        </div>
+        <div class="match-bar-track"><div class="match-bar-fill" style="width:68%;background:#185FA5"></div></div>
+        <span class="match-badge mb-good">Good Match</span>
+      </div>
+      <div class="match-chips">
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Budget: ₹95L — well within range</div>
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Possession: Mar 2027 — within timeline</div>
+        <div class="chip-row"><div class="chip-dot cd-a"></div>Segment: Premium — below preference</div>
+        <div class="chip-row"><div class="chip-dot cd-g"></div>Narsingi on your micro-market list</div>
+        <div class="chip-row"><div class="chip-dot cd-a"></div>Size: 1,450–1,750 sft — smaller than ideal</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── COMPARISON TABLE ── -->
+<div class="section">
+  <div class="sec-tag">Section 1 — Side-by-Side Comparison</div>
+  <h2 class="sec-title">How these 3 projects compare</h2>
+  <div class="table-note"><strong>Reading this table:</strong> <span style="color:var(--forest)">Green chips ✓</span> mark the strongest value per parameter. Amber chips flag one item to verify. Blank Premium Feature cells mean standard offering — the blank itself is the message.</div>
+  <div class="scroll-hint">← Scroll sideways to compare all 3 →</div>
+
+  <div class="table-scroll">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Prestige Verdure<br>
+          <span style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:400;text-transform:none;letter-spacing:0">Score 8.7 · AAA · </span><span style="font-size:10px;color:var(--gold2);font-weight:500;text-transform:none;letter-spacing:0">Luxury Index™ 78</span>
+        </th>
+        <th>Lansum El Palacio<br>
+          <span style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:400;text-transform:none;letter-spacing:0">Score 7.6 · AA · </span><span style="font-size:10px;color:var(--gold2);font-weight:500;text-transform:none;letter-spacing:0">Luxury Index™ 91</span>
+        </th>
+        <th>IRA Panorama<br>
+          <span style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:400;text-transform:none;letter-spacing:0">Score 6.9 · A · </span><span style="font-size:10px;color:var(--gold2);font-weight:500;text-transform:none;letter-spacing:0">Luxury Index™ 59</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="sec-row"><td>A — Pricing</td><td></td><td></td><td></td></tr>
+      <tr><td>CLP plan base rate</td><td class="c1">₹8,800 /sft</td><td class="c2">₹11,000 /sft</td><td class="c3"><span class="chip-g"><span class="chip-check">✓</span>₹7,200 /sft</span></td></tr>
+      <tr><td>50:50 plan base rate</td><td class="c1">₹8,200 /sft</td><td class="c2">₹10,200 /sft</td><td class="c3"><span class="chip-g"><span class="chip-check">✓</span>₹6,900 /sft</span></td></tr>
+      <tr><td>All-in 3 BHK range<span class="cell-note">Incl. GST 5% + Reg 7.5%*</span></td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>₹1.85–2.1 Cr</span></td><td class="c2">₹3.1–3.8 Cr</td><td class="c3">₹95L–1.55 Cr</td></tr>
+      <tr><td>Active offer</td><td class="c1">₹200/sft off Floors 1–5 · Ends Apr 30</td><td class="c2">None currently</td><td class="c3">Complimentary modular kitchen · Limited units</td></tr>
+
+      <tr class="sec-row"><td>B — Location</td><td></td><td></td><td></td></tr>
+      <tr><td>Distance to ORR</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>0.8 km</span></td><td class="c2">1.4 km</td><td class="c3">1.1 km</td></tr>
+      <tr><td>Nearest IT hub</td><td class="c1">Financial District · 12 min</td><td class="c2"><span class="chip-g"><span class="chip-check">✓</span>Financial District · 8 min</span></td><td class="c3">Financial District · 18 min</td></tr>
+      <tr><td>5-year CAGR (historical)</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>~12% pa</span></td><td class="c2">~11% pa</td><td class="c3">~10% pa</td></tr>
+
+      <tr class="sec-row"><td>C — Product Specs</td><td></td><td></td><td></td></tr>
+      <tr><td>Luxury Index / Segment</td><td class="c1">78 · Luxury</td><td class="c2"><span class="chip-g"><span class="chip-check">✓</span>91 · Ultra Luxury</span></td><td class="c3">59 · Premium</td></tr>
+      <tr><td>3 BHK size range</td><td class="c1">2,100–2,400 sft</td><td class="c2"><span class="chip-g"><span class="chip-check">✓</span>2,800–3,200 sft</span></td><td class="c3">1,450–1,750 sft</td></tr>
+      <tr><td>Ceiling height</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>10.6 ft</span></td><td class="c2">10.5 ft</td><td class="c3"><span class="chip-w">9.0 ft std</span></td></tr>
+      <tr><td>Construction type</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>Mivan</span></td><td class="c2"><span class="chip-g"><span class="chip-check">✓</span>Mivan</span></td><td class="c3"><span class="chip-w">RCC</span></td></tr>
+      <tr><td>Homes per floor<span class="cell-note">Lower = more privacy</span></td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>4 /floor</span></td><td class="c2"><span class="chip-g"><span class="chip-check">✓</span>4 /floor</span></td><td class="c3"><span class="chip-w">6 /floor</span></td></tr>
+      <tr><td>JV structure</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>No JV</span></td><td class="c2"><span class="chip-a">! DAGPA — verify</span></td><td class="c3"><span class="chip-g"><span class="chip-check">✓</span>No JV</span></td></tr>
+
+      <tr class="sec-row"><td>D — Per-Home Value<span style="display:block;font-size:9px;color:rgba(255,255,255,0.4);font-weight:400;text-transform:none;letter-spacing:0;margin-top:1px">What each resident actually gets</span></td><td></td><td></td><td></td></tr>
+      <tr><td>Amenity per home<span class="cell-note">Belt avg: ~22 sft</span></td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>112 sft</span></td><td class="c2">79 sft</td><td class="c3">38 sft</td></tr>
+      <tr><td>Parking per home</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>2.0 slots</span></td><td class="c2">1.8 slots</td><td class="c3">1.2 slots</td></tr>
+      <tr><td>Land share per home</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>1,492 sft</span></td><td class="c2">1,180 sft</td><td class="c3">820 sft</td></tr>
+      <tr><td>Open space ratio</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>72%</span></td><td class="c2">65%</td><td class="c3">55%</td></tr>
+
+      <tr class="sec-row"><td>F — Premium Features<span style="display:block;font-size:9px;color:rgba(255,255,255,0.4);font-weight:400;text-transform:none;letter-spacing:0;margin-top:1px">Blank = standard offering</span></td><td></td><td></td><td></td></tr>
+      <tr><td>Feature 1</td><td class="c1" style="font-size:12px">Rooftop infinity pool 280 ft</td><td class="c2" style="font-size:12px">Rooftop infinity pool 380 ft</td><td class="c3" style="color:var(--border);font-size:11px">—</td></tr>
+      <tr><td>Feature 2</td><td class="c1" style="font-size:12px">10.6 ft ceilings (vs 9 ft belt)</td><td class="c2" style="font-size:12px">Italian marble flooring</td><td class="c3" style="color:var(--border);font-size:11px">—</td></tr>
+      <tr><td>Feature 3</td><td class="c1" style="font-size:12px">24 ft palatial stilt lobby</td><td class="c2" style="font-size:12px">Sky Lounge at G+34</td><td class="c3" style="color:var(--border);font-size:11px">—</td></tr>
+      <tr><td>Feature 4</td><td class="c1" style="font-size:12px">10.5 ft corridors</td><td class="c2" style="font-size:12px">Private splash pool (4BHK)</td><td class="c3" style="color:var(--border);font-size:11px">—</td></tr>
+
+      <tr class="sec-row"><td>G — Timeline</td><td></td><td></td><td></td></tr>
+      <tr><td>Construction stage</td><td class="c1"><span class="sp-fin">Finishing Stage</span></td><td class="c2"><span class="sp-wip">Structure WIP &gt;50%</span></td><td class="c3"><span class="sp-wip">Structure WIP &gt;50%</span></td></tr>
+      <tr><td>Possession</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>December 2026</span></td><td class="c2">June 2027</td><td class="c3">March 2027</td></tr>
+      <tr><td>SafeNest Score</td><td class="c1"><span class="chip-g"><span class="chip-check">✓</span>8.7 · AAA · Low Risk</span></td><td class="c2">7.6 · AA · Moderate Risk</td><td class="c3">6.9 · A · Moderate Risk</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="font-size:11px;color:var(--muted);margin-top:8px;font-style:italic">* All-in estimates include GST (5%) and Registration (7.5%). Confirm exact cost with your advisor before booking.</p>
+</div>
+
+<!-- WHY SELECTED -->
+<div class="section">
+  <div class="sec-tag">Section 2 — Why SafeNest Selected Each Project</div>
+  <h2 class="sec-title">The case for each — individually</h2>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-card-head"><span class="why-tag wt-1">Project 1</span><span class="why-name">Prestige Verdure</span><span class="why-buyer">Best for: End-user family</span></div>
+      <div class="why-body">Prestige Verdure was selected because it offers the strongest combination of <strong>construction safety and lifestyle quality</strong> within your budget. The project is in Finishing Stage — all floors complete, interiors being fitted — meaning the largest risk for any off-plan buyer is already behind this project. Possession in December 2026 is the earliest in this shortlist.<br><br>The <strong>112 sft of amenity space per home</strong> — against a belt average of 22 sft — is the most significant lifestyle differentiator in this comparison. For a family that will actually live here, this compounds every single day. The <strong>10.6 ft ceilings and 10.5 ft palatial corridors</strong> are specifications not found in any other project at this price point in Kollur. Prestige Group's track record of 14 delivered projects provides confidence for an end-user who wants to move in, not speculate. This project is most naturally suited for <strong>an IT professional family prioritising construction safety and on-time possession</strong>.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-card-head"><span class="why-tag wt-2">Project 2</span><span class="why-name">Lansum El Palacio</span><span class="why-buyer">Best for: NRI / HNI buyer</span></div>
+      <div class="why-body">Lansum El Palacio was selected because it offers the <strong>highest specification product in this shortlist</strong> — a Luxury Index of 91, the only rooftop pool at 380 ft elevation in Kokapet, Italian marble as standard, and a Sky Lounge at G+34. For a buyer who values <strong>what they own over when they get it</strong>, these features are simply unavailable elsewhere at this price point.<br><br>The <strong>Kokapet location provides the shortest drive to Financial District</strong> — 8 minutes via ORR. One item to note: the JV structure involves a DAGPA arrangement. This is within normal parameters — we recommend your lawyer verify the mortgage release clause in the AOS. This project is most naturally suited for <strong>a buyer with patient capital who values specification above the fastest possible possession</strong>.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-card-head"><span class="why-tag wt-3">Project 3</span><span class="why-name">IRA Panorama</span><span class="why-buyer">Best for: Budget-conscious end-user</span></div>
+      <div class="why-body">IRA Panorama was selected because it offers the <strong>most accessible price point in this shortlist</strong> — ₹7,200 /sft on CLP, and the only 50:50 plan available among these three projects at this unit size in Narsingi. For a buyer where upfront outflow matters, this payment structure reduces early financial pressure significantly.<br><br>The project's structure is past 50% complete with a March 2027 possession target. The Narsingi location provides solid ORR access (1.1 km) with 18-minute connectivity to Financial District. Product specifications — 9 ft ceilings, RCC construction — are comfortably at market standard rather than above it. This project is most naturally suited for <strong>a first-time or budget-conscious end-user who wants a safe, RERA-registered home at the most accessible price in this shortlist</strong>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- VERDICT -->
+<div class="section">
+  <div class="sec-tag">Section 3 — SafeNest Verdict</div>
+  <h2 class="sec-title">Profile-matched recommendation</h2>
+
+  <div class="verdict-hero">
+    <div class="vh-header">
+      <div class="vh-tag">SafeNest Verdict · Profile-Matched Assessment</div>
+      <div class="vh-for">For: Rajesh &amp; Priya Kumar · End-use · 3 BHK · ₹1.8–3.5 Cr · Possession by Dec 2027</div>
+    </div>
+    <div class="vh-body">
+      <div class="vh-rec-row">
+        <span class="vh-badge">SafeNest Recommends for Your Profile</span>
+        <div class="vh-proj">Visit <em>Prestige Verdure</em> first.</div>
+      </div>
+      <div class="vh-reasons">
+        <div class="vhr"><div class="vhr-n">1</div><div class="vhr-t">Construction is <strong>Finishing Stage</strong>. All floors are built. You can walk your floor today. For an end-user family planning a move, this is the number that matters most — not specification on paper.</div></div>
+        <div class="vhr"><div class="vhr-n">2</div><div class="vhr-t">At ₹1.85 Cr all-in for a 3 BHK, you get a <strong>Luxury segment product</strong> within budget — Mivan construction, 10.6 ft ceilings, 112 sft of amenity per home. You are not making a compromise.</div></div>
+        <div class="vhr"><div class="vhr-n">3</div><div class="vhr-t"><strong>94% profile match</strong> — every criterion you stated (budget, timeline, segment, location, purpose) is met. No stretching required.</div></div>
+      </div>
+      <div class="vh-others">
+        <div class="vh-others-title">The other two remain strong choices for a different set of priorities</div>
+        <div class="vh-other"><strong>Lansum El Palacio</strong> is the right choice if your budget can stretch to ₹3 Cr+ and the highest specification — Italian marble, 380 ft rooftop pool, Sky Lounge — matters more than the earliest possession date.</div>
+        <div class="vh-other" style="margin-top:6px"><strong>IRA Panorama</strong> is the right choice if minimising upfront outflow is the priority. The 50:50 plan and ₹95L entry point are unique in this shortlist.</div>
+      </div>
+      <div class="vh-footer">All 3 projects are RERA-registered and active. The final decision is yours — based on what you see at the site, what feels right, and what fits your life. Visit all 3 before committing to any one of them.</div>
+    </div>
+  </div>
+</div>
+
+<!-- NEXT STEPS -->
+<div class="section">
+  <div class="sec-tag">Section 4 — What to Do Next</div>
+  <h2 class="sec-title">Your next 3 steps</h2>
+  <div class="step-card"><div class="step-num">1</div><div><div class="step-title">Visit all 3 sites — in person</div><div class="step-body">Your advisor will arrange site visits for all 3. Seeing the construction activity, the neighbourhood, and the developer's site office gives you information no report can provide. Do not book without visiting first.</div></div></div>
+  <div class="step-card"><div class="step-num">2</div><div><div class="step-title">Read the individual Deep Research Report for each project</div><div class="step-body">SafeNest has prepared a full 13-section due diligence report for each project — legal, developer, financial structure, risk assessment, and a buyer checklist. Ask your advisor before signing anything.</div></div></div>
+  <div class="step-card"><div class="step-num">3</div><div><div class="step-title">Trust what you see — and what you feel</div><div class="step-body">All 3 have cleared SafeNest's verification. The right home is the one you can imagine living in ten years from now.</div></div></div>
+  <div class="advisor-cta">
+    <p style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:0.75rem">To arrange site visits for all 3 projects, contact your SafeNest advisor:</p>
+    <div class="cta-name">Ameer Shaik · SafeNest Advisory</div>
+    <div class="cta-phone">+91 98765 43210 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0c1c4d6c9d3cfd2d9e0d3c1c6c5cec5d3d4c1c4d6c9d3cfd2d98ec3cfcd">[email&#160;protected]</a></div>
+    <button class="btn-cta">Call Advisor Now</button>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <p style="margin-bottom:0.5rem"><strong>Important</strong></p>
+  <p>Report prepared on <strong id="disc-date">Loading…</strong>. Valid for 30 days. Construction, pricing, regulatory status, and offers may change. Title verification is the buyer's responsibility through an independent lawyer. SafeNest accepts no payments from developers for ratings or placements — ratings are structurally independent. SafeNest Advisory · Hyderabad · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f79693819e8498858eb784969192999284839693819e8498858ed994989a">[email&#160;protected]</a></p>
+</div>
+
+<div class="report-footer">
+  <div class="footer-brand">SafeNest Advisory</div>
+  <div class="footer-conf">Confidential · Advisor Report 2 · <span id="footer-date">Loading…</span> · Advisory meeting only</div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function(){
+  var d=new Date();
+  var m=['January','February','March','April','May','June','July','August','September','O
